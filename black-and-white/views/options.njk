@@ -1,0 +1,34 @@
+{% extends "layout.njk" %}
+{% block css %}
+  {% if colorBlack %}
+    <link rel="stylesheet" href="/css/styleBlackMode.css" />
+  {% elif colorWhite %}
+  <link rel="stylesheet" href="/css/style.css" />
+  {% endif %}
+{% endblock %}
+{% block top%}
+
+{% endblock %}
+{% block contenu%}
+  <div class="contenuMiddle">
+    <div class="box">
+      <h2>Choose your appearance :<h2>
+      <form method="POST" action="/handle-form" class="form">
+        <div class="buttonRadio">
+          <input type="radio" id="dark" value="#000000" name="choiceColor" checked>
+          <label for="dark">Dark</label>
+        </div>
+        <div class="buttonRadio">
+          <input type="radio" id="light" value="#FFFFFF" name="choiceColor">
+          <label for="light">Light</label>
+        </div>
+        <button type="submit" class="buttonForm">
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+
+

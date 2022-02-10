@@ -1,0 +1,38 @@
+body{
+  background-color: rgb(255, 255, 255);
+  height: 100%;
+  width: 100%;
+}
+
+.contenuMiddle{
+  margin-left: 30%;
+  margin-top: 200px;
+  text-align: center;
+  background-color: rgb(6, 133, 245);
+  width: 500px;
+  height: 300px;
+  border-color: black;
+  border-radius: 25%;
+}
+
+.box{
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(2, 2, 2);
+  height: 300px;
+  width: 500px;
+  border-radius: 20%;
+  padding-top: 100px;
+  border-color: rgb(255, 255, 255);
+  color:white;
+  border: solid 5px;
+}
+
+.buttonForm{
+  margin-top: 20px;
+}
+
+.buttonRadio{
+  font-size: 20px;
+  margin-bottom: 20px;
+}

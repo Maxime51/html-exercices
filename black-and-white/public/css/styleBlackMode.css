@@ -1,0 +1,39 @@
+body{
+  background-color: rgb(0, 0, 0);
+  height: 100%;
+  width: 100%;
+}
+
+.contenuMiddle{
+  color:white;
+  margin-left: 30%;
+  margin-top: 200px;
+  text-align: center;
+  background-color: rgb(182, 186, 189);
+  width: 500px;
+  height: 300px;
+  border-color: black;
+  border-radius: 25%;
+}
+
+.box{
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  height: 300px;
+  width: 500px;
+  border-radius: 20%;
+  padding-top: 100px;
+  border-color: black;
+  color:black;
+  border: solid 5px;
+}
+
+.buttonForm{
+  margin-top: 20px;
+}
+
+.buttonRadio{
+  font-size: 20px;
+  margin-bottom: 20px;
+}

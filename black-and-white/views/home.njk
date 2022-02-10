@@ -1,0 +1,18 @@
+{% extends "layout.njk" %}
+{% block css %}
+  {% if colorBlack %}
+    <link rel="stylesheet" href="/css/styleBlackMode.css" />
+  {% elif colorWhite %}
+  <link rel="stylesheet" href="/css/style.css" />
+  {% endif %}
+{% endblock %}
+{% block top%}
+
+{% endblock %}
+{% block contenu%}
+<a href="/options">Options</a>
+<h1 id="t" class="test">{{colorSend}}</h1>
+{% endblock %}
+
+
+
