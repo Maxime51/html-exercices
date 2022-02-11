@@ -1,0 +1,25 @@
+{% extends "layout.njk" %}
+
+{% block top%}
+  <div class="bandeau">
+    Home
+  </div>
+  <div>
+    <a href="/connexion"><button>Connexion</button></a>
+  </div>
+{% endblock %}
+{% block contenu%}
+  {% if msgErr %}
+    <h2>{{msgErr}}</h2>
+  {% endif %}
+  {% if uuid %}
+  <h1>{{premium}}</h1>
+  <h1>{{uuid}}</h1>
+    {% if premium == true %}
+      <a href="/test"><h1>Direction le test</h1></a>
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+
+
