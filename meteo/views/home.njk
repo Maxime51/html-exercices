@@ -1,0 +1,20 @@
+{% extends "layout.njk" %}
+
+{% block top%}
+ <div class="divTop">
+    <h1>METEO CITY</h1>
+  </div>
+{% endblock %}
+{% block contenu%}
+<div class="divForm">
+  <form  method="POST" action="/treatForm">
+    <input class="formInput" type="text" name="city" placeholder="City" />
+    <button class="formButton" type="submit">
+      GO
+    </button>
+  </form>
+</div>
+{% endblock %}
+
+
+

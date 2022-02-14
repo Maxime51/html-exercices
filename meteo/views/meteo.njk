@@ -1,0 +1,33 @@
+{% extends "layout.njk" %}
+
+{% block top%}
+
+{% endblock %}
+{% block contenu%}
+<div class="titre">
+  <h1>METEO {{city}}</h1>
+  <a href="/"><button>HOME PAGE</button></a>
+</div>
+<div class="divMeteo">
+  {% for item in objectDetail %}
+      <div class="ligneMeteo">
+      <div class="divDate">
+        <p>{{item.date}}</p>
+      </div>
+      <div class="divHeure">
+        <p>{{item.hour}}</p>
+      </div>
+      <div class="divTemperature">
+        <p>{{item.temperature}}</p>
+      </div>
+      <div class="divCiel">
+        <img src="{{item.icone}}"/>
+        <p>{{item.weather}}</p>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}
+
+
+

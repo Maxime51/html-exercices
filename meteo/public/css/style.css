@@ -1,0 +1,62 @@
+html, body{
+  height: 100%;
+  width: 100%;
+  background-color: bisque;
+}
+.titre{
+  text-align: center;
+}
+.divMeteo{
+  margin-left: 20%;
+  margin-top: 10%;
+  display: flex;
+  flex-direction: column;
+  min-width: 100px;
+}
+.ligneMeteo{
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  font-size: 22px;
+}
+.divTop{
+  text-align: center;
+  height: 20%;
+  background-color: black;
+  color:white;
+}
+.divForm{
+  background-color: bisque;
+  margin-top: 10%;
+  margin-left: 40%;
+}
+.formInput{
+  font-size: 30px;
+}
+.formButton{
+  font-size: 30px;
+}
+.divDate{
+  width: 20%;
+  border-right: solid;
+  border-bottom: solid;
+}
+
+.divHeure{
+  width: 20%;
+  border-right: solid;
+  border-bottom: solid;
+}
+
+.divTemperature{
+  width: 20%;
+  border-right: solid;
+  border-bottom: solid;
+}
+.divCiel{
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  border-bottom: solid;
+  width: 20%;
+}
