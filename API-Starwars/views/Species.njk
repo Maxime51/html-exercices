@@ -28,14 +28,20 @@
         <div><a href="/Planets/'{{indexOfPlanet}}'">HomeWorld<a/></div>
          <div >Language : {{speciesDetail.language}}</div>
          <div class="people">
+         <p>Character</p>
+         <select name="people" id="pet-select" onChange="location = this.options[this.selectedIndex].value;">
           {% for peoples in speciesDetail.people %}
-            <a href="/People/'{{peoples.split("/").reverse()[1]}}'">Character {{peoples.split("/").reverse()[1]}}</a>
+            <option value="/People/'{{peoples.split("/").reverse()[1]}}'">Character {{peoples.split("/").reverse()[1]}}</option>
           {% endfor %}
+          </select>
         </div>
         <div class="films">
-          {% for character in speciesDetail.characters %}
-            <a href="/People/'{{character.split("/").reverse()[1]}}'">Character {{character.split("/").reverse()[1]}}</a>
+        <p>Film</p>
+        <select name="film" id="pet-select" onChange="location = this.options[this.selectedIndex].value;">
+          {% for film in speciesDetail.films %}
+            <option value="/Films/'{{film.split("/").reverse()[1]}}'">Film {{film.split("/").reverse()[1]}}</option>
           {% endfor %}
+          </select>
         </div>
   </div>>
 </div>

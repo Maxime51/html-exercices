@@ -25,18 +25,26 @@
         <div >Terrain : {{planetDetail.terrain}}</div>
         <div >Population : {{planetDetail.population}}</div>
         <div class="resident">
+        <p>Resident</p>
+        <select name="people" id="pet-select" onChange="location = this.options[this.selectedIndex].value;">
           {% for resident in planetDetail.residents %}
-            <a href="/People/'{{resident.split("/").reverse()[1]}}'">Resident {{resident.split("/").reverse()[1]}}</a>
+            <option value="/People/'{{resident.split("/").reverse()[1]}}'">Resident {{resident.split("/").reverse()[1]}}</option>
           {% endfor %}
+        </select>
         </div>
         <div class="films">
+        <p>Film</p>
+        <select name="people" id="pet-select" onChange="location = this.options[this.selectedIndex].value;">
           {% for film in planetDetail.films %}
-            <a href="/Films/'{{film.split("/").reverse()[1]}}'">Film {{film.split("/").reverse()[1]}}</a>
+            <option value="/Films/'{{film.split("/").reverse()[1]}}'">Film {{film.split("/").reverse()[1]}}</option>
           {% endfor %}
+         </select>
         </div>
   </div>
 </div>
 {% endblock %}
+
+
 
 
 

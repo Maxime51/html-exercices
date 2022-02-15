@@ -13,7 +13,7 @@
     {% for film in films %}
       <a href="/Films/'{{film.url.split("/")[5]}}'">
         <div class="lignePlanet" >
-          <div class="name">{{film.name}}</div>
+          <div class="name">{{film.title}}</div>
         </div>
       </a>
     {% endfor %}
@@ -21,34 +21,48 @@
    <div class="arrayPlanetsDetails">
         <div >Title : {{filmDetail.title}}</div>
         <div >Episode : {{filmDetail.episode_id}}</div>
-        <div >Opening_crawl : {{filmDetail.opening_crawl}}</div>
         <div >Director : {{filmDetail.director}}</div>
         <div >Producer : {{filmDetail.producer}}</div>
         <div >Release_date : {{filmDetail.release_date}}</div>
         <div class="films">
-          {% for character in filmDetail.characters %}
-            <a href="/People/'{{character.split("/").reverse()[1]}}'">Character {{character.split("/").reverse()[1]}}</a>
-          {% endfor %}
+          <p>Character</p>
+           <select name="films" id="pet-select" onChange="location = this.options[this.selectedIndex].value;">
+            {% for character in filmDetail.characters %}
+              <option value="/People/'{{character.split("/").reverse()[1]}}'">Character {{character.split("/").reverse()[1]}}</option>
+            {% endfor %}
+          </select>
         </div>
         <div class="planetes">
+         <p>Planet</p>
+          <select name="planete" id="pet-select" onChange="location = this.options[this.selectedIndex].value;">
           {% for planet in filmDetail.planets %}
-            <a href="/Planets/'{{planet.split("/").reverse()[1]}}'">Planet {{planet.split("/").reverse()[1]}}</a>
+             <option value="/Planets/'{{planet.split("/").reverse()[1]}}'">Planet {{planet.split("/").reverse()[1]}}</option>
           {% endfor %}
+           </select>
         </div>
         <div class="starships">
+        <p>Starship</p>
+        <select name="starship" id="pet-select" onChange="location = this.options[this.selectedIndex].value;">
           {% for starship in filmDetail.starships %}
-            <a href="/Starships/'{{starship.split("/").reverse()[1]}}'">Starship {{starship.split("/").reverse()[1]}}</a>
+             <option value="/Starships/'{{starship.split("/").reverse()[1]}}'">Starship {{starship.split("/").reverse()[1]}}</option>
           {% endfor %}
+            </select>
         </div>
         <div class="vehicules">
+        <p>Vehicule</p>
+        <select name="vehicules" id="pet-select" onChange="location = this.options[this.selectedIndex].value;">
           {% for vehicule in filmDetail.vehicles %}
-            <a href="/Vehicules/'{{vehicule.split("/").reverse()[1]}}'">Vehicule {{vehicule.split("/").reverse()[1]}}</a>
+            <option value="/Vehicules/'{{vehicule.split("/").reverse()[1]}}'">Vehicule {{vehicule.split("/").reverse()[1]}}</option>
           {% endfor %}
+          </select>
         </div>
          <div class="species">
+         <p>Specie</p>
+         <select name="specie" id="pet-select" onChange="location = this.options[this.selectedIndex].value;">
           {% for specie in filmDetail.species %}
-            <a href="/Species/'{{specie.split("/").reverse()[1]}}'">Specie {{specie.split("/").reverse()[1]}}</a>
+             <option value="/Species/'{{specie.split("/").reverse()[1]}}'">Specie {{specie.split("/").reverse()[1]}}</option>
           {% endfor %}
+          </select>
         </div>
   </div>>
 </div>

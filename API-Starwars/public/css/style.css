@@ -27,7 +27,7 @@ a{
 }
 .arrayPlanetsDetails div{
   border: solid;
-  height: 50px;
+  height: 100px;
   text-align: center;
 }
 .lignePlanet{
@@ -40,7 +40,7 @@ a{
 .lignePlanetInfo{
   width: 600px;
   text-align: center;
-  height: 50px;
+  height: 100px;
   display: flex;
   flex-direction: row;
 }

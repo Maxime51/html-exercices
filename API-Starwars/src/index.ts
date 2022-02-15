@@ -96,6 +96,7 @@ app.get("/Vehicules", (req, response) => {
       console.error(error);
     } else {
       const json = JSON.parse(html);
+
       listOfVehicules = json.results;
       response.render("Vehicules", { vehicules: json.results });
     }

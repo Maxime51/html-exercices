@@ -27,9 +27,12 @@
         <div >Cargo_capacity : {{vehiculeDetail.cargo_capacity}}</div>
         <div >Vehicle_class : {{vehiculeDetail.vehicle_class}}</div>
         <div class="films">
-          {% for film in vehiculeDetail.films %}
-            <a href="/Films/'{{film.split("/").reverse()[1]}}'">Film {{film.split("/").reverse()[1]}}</a>
+        <p>Film</p>
+          <select name="film" id="pet-select" onChange="location = this.options[this.selectedIndex].value;">
+          {% for film in spaceshipDetail.films %}
+            <option value="/Films/'{{film.split("/").reverse()[1]}}'">Film {{film.split("/").reverse()[1]}}</option>
           {% endfor %}
+          </select>
         </div>
   </div>>
 </div>
