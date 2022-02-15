@@ -1,0 +1,55 @@
+{% extends "layout.njk" %}
+
+{% block top%}
+<div>
+<a href="/"><button>Accueil</button></a>
+
+<div>
+{% endblock %}
+
+{% block contenu%}
+<div class="bloc">
+  <div class="arrayPlanets">
+    {% for people in peoples %}
+      <a href="/People/'{{people.url.split("/")[5]}}'">
+        <div class="lignePlanet" >
+          <div class="name">{{people.name}}</div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+   <div class="arrayPlanetsDetails">
+        <div >Name : {{peopleDetail.name}}</div>
+        <div >Height : {{peopleDetail.height}}</div>
+        <div >Mass : {{peopleDetail.mass}}</div>
+        <div >Hair_color : {{peopleDetail.hair_color}}</div>
+        <div >Eye_color : {{peopleDetail.eye_color}}</div>
+        <div >Birth_year : {{peopleDetail.birth_year}}</div>
+        <div >Gender : {{peopleDetail.gender}}</div>
+        <div>
+        <a href="/Planets/'{{indexOfPlanet}}'">HomeWorld<a/>
+        </div>
+        <div class="films">
+          {% for film in peopleDetail.films %}
+            <a href="/Films/'{{film.split("/").reverse()[1]}}'">Film {{film.split("/").reverse()[1]}}</a>
+          {% endfor %}
+        </div>
+        <div class="vehicules">
+          {% for vehicule in peopleDetail.vehicles %}
+            <a href="/Vehicules/'{{vehicule.split("/").reverse()[1]}}'">Vehicule {{vehicule.split("/").reverse()[1]}}</a>
+          {% endfor %}
+        </div>
+        <div class="starships">
+          {% for starship in peopleDetail.starships %}
+            <a href="/Starship/'{{starship.split("/").reverse()[1]}}'">Starship {{starship.split("/").reverse()[1]}}</a>
+          {% endfor %}
+        </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+
+
+

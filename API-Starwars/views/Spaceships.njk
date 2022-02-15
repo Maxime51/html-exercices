@@ -1,0 +1,36 @@
+{% extends "layout.njk" %}
+
+{% block top%}
+<div>
+<a href="/"><button>Accueil</button></a>
+
+<div>
+{% endblock %}
+
+{% block contenu%}
+<div class="bloc">
+  <div class="arrayPlanets">
+    {% for spaceship in spaceships %}
+      <a href="/Spaceships/'{{spaceship.url.split("/")[5]}}'">
+        <div class="lignePlanet" >
+          <div class="name">{{spaceship.name}}</div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+   <div class="arrayPlanetsDetails">
+        <div >Name : {{spaceshipDetail.name}}</div>
+        <div >Model : {{spaceshipDetail.model}}</div>
+        <div >Manufacturer : {{spaceshipDetail.manufacturer}}</div>
+        <div >Length : {{spaceshipDetail.length}}</div>
+        <div >Passengers : {{spaceshipDetail.passengers}}</div>
+        <div >Cargo_capacity : {{spaceshipDetail.cargo_capacity}}</div>
+        <div >Starship_class : {{spaceshipDetail.starship_class}}</div>
+        <div class="films">
+          {% for film in spaceshipDetail.films %}
+            <a href="/Films/'{{film.split("/").reverse()[1]}}'">Film {{film.split("/").reverse()[1]}}</a>
+          {% endfor %}
+        </div>
+  </div>>
+</div>
+{% endblock %}

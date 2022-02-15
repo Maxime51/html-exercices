@@ -1,0 +1,36 @@
+{% extends "layout.njk" %}
+
+{% block top%}
+<div>
+<a href="/"><button>Accueil</button></a>
+
+<div>
+{% endblock %}
+
+{% block contenu%}
+<div class="bloc">
+  <div class="arrayPlanets">
+    {% for vehicule in vehicules %}
+      <a href="/Vehicules/'{{vehicule.url.split("/")[5]}}'">
+        <div class="lignePlanet" >
+          <div class="name">{{vehicule.name}}</div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+   <div class="arrayPlanetsDetails">
+        <div >Name : {{vehiculeDetail.name}}</div>
+        <div >Model : {{vehiculeDetail.model}}</div>
+        <div >Manufacturer : {{vehiculeDetail.manufacturer}}</div>
+        <div >Length : {{vehiculeDetail.length}}</div>
+        <div >Passengers : {{vehiculeDetail.passengers}}</div>
+        <div >Cargo_capacity : {{vehiculeDetail.cargo_capacity}}</div>
+        <div >Vehicle_class : {{vehiculeDetail.vehicle_class}}</div>
+        <div class="films">
+          {% for film in vehiculeDetail.films %}
+            <a href="/Films/'{{film.split("/").reverse()[1]}}'">Film {{film.split("/").reverse()[1]}}</a>
+          {% endfor %}
+        </div>
+  </div>>
+</div>
+{% endblock %}

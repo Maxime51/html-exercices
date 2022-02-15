@@ -1,0 +1,42 @@
+{% extends "layout.njk" %}
+
+{% block top%}
+<div>
+<a href="/"><button>Accueil</button></a>
+
+<div>
+{% endblock %}
+
+{% block contenu%}
+<div class="bloc">
+  <div class="arrayPlanets">
+    {% for planete in planets %}
+      <a href="/Planets/'{{planete.url.split("/")[5]}}'">
+        <div class="lignePlanet" >
+          <div class="name">{{planete.name}}</div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+   <div class="arrayPlanetsDetails">
+        <div >Name : {{planetDetail.name}}</div>
+        <div >Diameter : {{planetDetail.diameter}}</div>
+        <div >Climate : {{planetDetail.climate}}</div>
+        <div >Terrain : {{planetDetail.terrain}}</div>
+        <div >Population : {{planetDetail.population}}</div>
+        <div class="resident">
+          {% for resident in planetDetail.residents %}
+            <a href="/People/'{{resident.split("/").reverse()[1]}}'">Resident {{resident.split("/").reverse()[1]}}</a>
+          {% endfor %}
+        </div>
+        <div class="films">
+          {% for film in planetDetail.films %}
+            <a href="/Films/'{{film.split("/").reverse()[1]}}'">Film {{film.split("/").reverse()[1]}}</a>
+          {% endfor %}
+        </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
