@@ -1,0 +1,26 @@
+{% extends "layout.njk" %}
+
+{% block top%}
+  <h1>Welcome to the Website Games</h1>
+{% endblock %}
+{% block contenu%}
+  <div>
+    {% for page in numberOFPagesArray%}
+      <a href="/{{page}}"><button>Page{{page}}</button></a>
+    {% endfor %}
+  </div>
+  <div class="blocPlatforms">
+    {% for platform in platforms%}
+      <a href="/games/{{platform.id}}_{{indexOfPage}}">
+      <div class="ligneDivPlatforms">
+        <div><img src="{{platform.logo.url}}"></img></div>
+        <div>{{platform.name}}</div>
+        <div>{{platform.category}}</div>
+      </div>
+      </a>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+
+

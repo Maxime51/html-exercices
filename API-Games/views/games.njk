@@ -1,0 +1,24 @@
+{% extends "layout.njk" %}
+
+{% block top%}
+  <a><button>Retour</button></a>
+  <div>
+    {% for page in numberOFPagesGames%}
+      <a href="/games/{{idPlatform}}/{{page}}"><button>Page{{page}}</button></a>
+    {% endfor %}
+  </div>
+{% endblock %}
+{% block contenu%}
+<div class="blocPlatforms">
+    {% for game in gamePlatform%}
+      <div class="ligneDivPlatforms">
+        <div><img src="{{game.cover.url}}"></img></div>
+        <div>{{game.name}}</div>
+        <div>{{game.category}}</div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+
+

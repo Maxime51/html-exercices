@@ -1,0 +1,40 @@
+html, body{
+  height: 100%;
+  width: 100%;
+}
+
+a{
+  text-decoration:none;
+  color:black
+}
+.blocPlatforms img{
+  height: 100px;
+  width: 100px;
+}
+.blocPlatforms{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  padding-top: 50px;
+  margin-left: 100px;
+}
+.blocPlatformsDetails{
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  border: solid;
+  padding-top: 50px;
+  margin-left: 100px;
+}
+
+.ligneDivPlatforms{
+  display: flex;
+  flex-direction: row;
+}
+
+.ligneDivPlatforms div{
+  width: 200px;
+  height: 150px;
+  border-bottom: dotted;
+  border-right: solid;
+}
