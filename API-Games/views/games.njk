@@ -19,7 +19,7 @@
       <div>
       <select name="page" id="page-select" onChange="location = this.options[this.selectedIndex].value;">
         {% for page in numberOFPagesGames%}
-          {% if page == indexPageGame %}
+          {% if page == indexOfPage %}
           <option selected value="/games/{{page}}">Page {{page}}</option>
           {% else %}
             <option value="/games/{{page}}">Page {{page}}</option>
@@ -31,89 +31,89 @@
   {% endblock %}
   {% block contenu%}
   {% if pagePlatformOrigin %}
-  <div><h1>{{namePlatForm}}</1></div>
-  <div class="divContainer">
-    <div class="blocGames">
-      {% for game in gamePlatform%}
-      <a href="/games/{{idPlatform}}/{{game.name}}/{{game.id}}">
-        <div class="ligneDivGames">
-          <div>
-            <img src="{{game.cover.url}}"></img>
-            <div>{{game.name}}</div>
-          </div>
+    <div><h1>{{namePlatForm}}</1></div>
+    <div class="divContainer">
+      <div class="blocGames">
+        {% for game in gamePlatform%}
+        <a href="/games/{{idPlatform}}/{{game.name}}/{{game.id}}">
+          <div class="ligneDivGames">
+            <div>
+              <img src="{{game.cover.url}}"></img>
+              <div>{{game.name}}</div>
+            </div>
 
-        </div>
-      </a>
-      {% endfor %}
-    </div>
-    {% if afficheBloc %}
-      {% if schearch %}
-        <div class="blocInfoJeu">
-        <div class="ligneInfoJeu">
-          <div>{{gameInfo.name}}</div>
-        </div>
-        <div class="gridInfoGame">
-            {% for screen in gameInfo.game_screenshots%}
-              <div><img src="{{screen.url}}"></img></div>
-            {% endfor %}
-        </div>
+          </div>
+        </a>
+        {% endfor %}
       </div>
-      {% else %}
-        <div class="blocInfoJeu">
+      {% if afficheBloc %}
+        {% if schearch %}
+          <div class="blocInfoJeu">
           <div class="ligneInfoJeu">
             <div>{{gameInfo.name}}</div>
           </div>
           <div class="gridInfoGame">
-              {% for screen in gameInfo.screenshots%}
+              {% for screen in gameInfo.game_screenshots%}
                 <div><img src="{{screen.url}}"></img></div>
               {% endfor %}
           </div>
         </div>
+        {% else %}
+          <div class="blocInfoJeu">
+            <div class="ligneInfoJeu">
+              <div>{{gameInfo.name}}</div>
+            </div>
+            <div class="gridInfoGame">
+                {% for screen in gameInfo.screenshots%}
+                  <div><img src="{{screen.url}}"></img></div>
+                {% endfor %}
+            </div>
+          </div>
+        {% endif %}
       {% endif %}
-    {% endif %}
-  <div>
+    <div>
   {% else %}
-  <div class="divContainer">
-    <div class="blocGames">
-      {% for game in games %}
-      <a href="/games/game/:name{{game.name}}/{{game.id}}">
-        <div class="ligneDivGames">
-          <div>
-            <img src="{{game.cover.url}}"></img>
-            <div>{{game.name}}</div>
+    <div class="divContainer">
+      <div class="blocGames">
+        {% for game in games %}
+        <a href="/games/game/{{game.name}}/{{game.id}}">
+          <div class="ligneDivGames">
+            <div>
+              <img src="{{game.cover.url}}"></img>
+              <div>{{game.name}}</div>
+            </div>
           </div>
-        </div>
-      </a>
-      {% endfor %}
-    </div>
-    {% if afficheBloc %}
-      {% if schearch %}
-        <div class="blocInfoJeu">
-        <div class="ligneInfoJeu">
-          <div>{{gameInfo.name}}</div>
-        </div>
-        <div class="gridInfoGame">
-            {% for screen in gameInfo.game_screenshots%}
-              <div><img src="{{screen.url}}"></img></div>
-            {% endfor %}
-        </div>
+        </a>
+        {% endfor %}
       </div>
-      {% else %}
-        <div class="blocInfoJeu">
+      {% if afficheBloc %}
+        {% if schearch %}
+          <div class="blocInfoJeu">
           <div class="ligneInfoJeu">
             <div>{{gameInfo.name}}</div>
           </div>
           <div class="gridInfoGame">
-              {% for screen in gameInfo.screenshots%}
+              {% for screen in gameInfo.game_screenshots%}
                 <div><img src="{{screen.url}}"></img></div>
               {% endfor %}
           </div>
         </div>
+        {% else %}
+          <div class="blocInfoJeu">
+            <div class="ligneInfoJeu">
+              <div>{{gameInfo.name}}</div>
+            </div>
+            <div class="gridInfoGame">
+                {% for screen in gameInfo.screenshots%}
+                  <div><img src="{{screen.url}}"></img></div>
+                {% endfor %}
+            </div>
+          </div>
+        {% endif %}
       {% endif %}
-    {% endif %}
-  <div>
+    <div>
   {% endif %}
-  {% endblock %}
+{% endblock %}
 
 
 

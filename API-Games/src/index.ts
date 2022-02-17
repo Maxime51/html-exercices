@@ -13,6 +13,7 @@ let indexOfPage: string;
 let games: [];
 let indexPageGame: string;
 let gamePlatforms: string[];
+let listGames: string[];
 let idPlatform: string;
 
 app.use(express.static("public")); //acces au dossier
@@ -86,6 +87,7 @@ app.get("/games/:pages", (req, response) => {
       console.error(error);
     } else {
       const json = JSON.parse(body);
+      listGames = json.games;
       console.log(json);
       response.render("games", { games: json.games, numberOFPagesGames: numberOFPagesArray, indexOfPage });
     }
@@ -132,9 +134,9 @@ app.get("/games/:platform/:name/:game", (req, response) => {
       } else {
         const gameInfo = JSON.parse(body);
         response.render("games", {
-          gamePlatform: gamePlatforms,
+          games: listGames,
           idPlatform,
-          numberOFPagesGames,
+          numberOFPagesGames: numberOFPagesArray,
           gameInfo,
           afficheBloc: true,
           indexPageGame,
