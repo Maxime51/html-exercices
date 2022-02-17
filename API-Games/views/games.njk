@@ -2,8 +2,7 @@
 
   {% block top%}
     {% if pagePlatformOrigin %}
-    <a href="/platforms/{{indexOfPage}}"><button>Retour</button></a>
-    <div>
+      <a href="/"><button>Retour</button></a>
     <select name="page" id="page-select" onChange="location = this.options[this.selectedIndex].value;">
       {% for page in numberOFPagesGames%}
         {% if page == indexPageGame %}
@@ -51,6 +50,12 @@
           <div class="blocInfoJeu">
           <div class="ligneInfoJeu">
             <div>{{gameInfo.name}}</div>
+            <div>
+              <p>Plateforme :</p>
+                {% for platform in gameInfo.platforms%}
+                  <p>{{platform.name}}</p>
+                {% endfor %}
+              </div>
           </div>
           <div class="gridInfoGame">
               {% for screen in gameInfo.game_screenshots%}
@@ -62,6 +67,12 @@
           <div class="blocInfoJeu">
             <div class="ligneInfoJeu">
               <div>{{gameInfo.name}}</div>
+              <div>
+              <p>Plateforme :</p>
+                {% for platform in gameInfo.platforms%}
+                  <p>{{platform.name}}</p>
+                {% endfor %}
+              </div>
             </div>
             <div class="gridInfoGame">
                 {% for screen in gameInfo.screenshots%}
@@ -91,6 +102,12 @@
           <div class="blocInfoJeu">
           <div class="ligneInfoJeu">
             <div>{{gameInfo.name}}</div>
+            <div>
+              <p>Plateforme :</p>
+                {% for platInfo in gameInfo.games_platforms%}
+                  <p>{{platInfo.platform.name}}</p>
+                {% endfor %}
+              </div>
           </div>
           <div class="gridInfoGame">
               {% for screen in gameInfo.game_screenshots%}
@@ -102,6 +119,12 @@
           <div class="blocInfoJeu">
             <div class="ligneInfoJeu">
               <div>{{gameInfo.name}}</div>
+              <div>
+              <p>Plateforme :</p>
+                {% for platform in gameInfo.platforms%}
+                  <p>{{platform.name}}</p>
+                {% endfor %}
+              </div>
             </div>
             <div class="gridInfoGame">
                 {% for screen in gameInfo.screenshots%}

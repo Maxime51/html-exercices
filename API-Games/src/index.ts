@@ -88,7 +88,6 @@ app.get("/games/:pages", (req, response) => {
     } else {
       const json = JSON.parse(body);
       listGames = json.games;
-      console.log(json);
       response.render("games", { games: json.games, numberOFPagesGames: numberOFPagesArray, indexOfPage });
     }
   });
@@ -111,6 +110,7 @@ app.get("/games/:platform/:page", (req, response) => {
           gamePlatform: gamePlatforms,
           idPlatform,
           numberOFPagesGames,
+          schearch: true,
           indexOfPage,
           pagePlatformOrigin: true,
           indexPageGame,
@@ -181,8 +181,7 @@ app.post("/schearch", formParser, (req, response) => {
         console.error(error);
       } else {
         const game = JSON.parse(body);
-        response.render("games", { gameInfo: game, afficheBloc: true, schearch: true, pagePlatformOrigin: true });
-        console.log(game);
+        response.render("games", { gameInfo: game, afficheBloc: true, schearch: true, pagePlatformOrigin: false });
       }
     });
   } else if (category === "platform") {
