@@ -1,0 +1,34 @@
+{% extends "layout.njk" %}
+
+{% block top%}
+<a href="/"><button>Retour</button></a>
+{% endblock %}
+{% block contenu%}
+  <div>
+  <select name="page" id="page-select" onChange="location = this.options[this.selectedIndex].value;">
+    {% for page in numberOFPagesArray%}
+      {% if page == indexOfPage %}
+        <option value="/platforms/{{page}}" selected>Page {{page}}</option>
+      {% else %}
+        <option value="/platforms/{{page}}">Page {{page}}</option>
+      {% endif %}
+    {% endfor %}
+  </select>
+  </div>
+  <div class="blocPlatforms">
+    {% for platform in platforms%}
+      <a href="/platforms/games/{{platform.id}}:{{platform.name}}">
+      <div class="ligneDivPlatforms">
+        <div>
+          {% if platform.logo.url == null%}
+            <div class="namePlatform">{{platform.name}}</div>
+          {% else %}
+            <img src="{{platform.logo.url}}"></img>
+            <div class="namePlatform">{{platform.name}}</div>
+          {% endif %}
+        </div>
+      </div>
+      </a>
+    {% endfor %}
+  </div>
+{% endblock %}
