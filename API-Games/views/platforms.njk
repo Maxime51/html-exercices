@@ -5,7 +5,7 @@
 {% endblock %}
 {% block contenu%}
   <div class="navPage">
-    {% if indexOfPage == 1%}
+    {% if indexOfPage == 1 or indexOfPage == 0 %}
     {% else %}
       <a href="/platforms/1"><<</a>
       <a href="/platforms/{{indexOfPage-5}}"><</a>
@@ -13,7 +13,7 @@
     <div class="nbPage">
       {% set limitPage = 5 %}
       {% for page in numberOFPagesArray %}
-        {% if indexOfPage > limitPage %}
+        {% if indexOfPage >= limitPage %}
           {% set itterator = page + indexOfPage%}
             {% if itterator <= limitPage + (indexOfPage) %}
               {% if itterator <= numberOFPagesArray.length %}
@@ -22,12 +22,15 @@
             {% endif %}
         {% else %}
           {% if page <= limitPage %}
-            <a href="/platforms/{{page}}">{{page}}</a>
+            {% if page != indexOfPage%}
+              <a href="/platforms/{{page}}">{{page}}</a>
+            {% endif %}
+
           {% endif %}
         {% endif %}
       {% endfor %}
     </div>
-    {% if indexOfPage + limitPage  > numberOFPagesArray.length%}
+    {% if indexOfPage + limitPage  >= numberOFPagesArray.length%}
       <a href="/platforms/1">></a>
     {% else %}
       <a href="/platforms/{{indexOfPage+5}}">></a>

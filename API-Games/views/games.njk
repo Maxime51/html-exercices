@@ -22,7 +22,9 @@
             {% endif %}
             {% else %}
               {% if page <= limitPage %}
-              <a href="/games/{{idPlatform}}/{{page}}">{{page}}</a>
+                {% if page != indexPageGame%}
+                  <a href="/games/{{idPlatform}}/{{page}}">{{page}}</a>
+                {% endif %}
               {% endif %}
             {% endif %}
           {% endfor %}
@@ -56,7 +58,9 @@
               {% endif %}
               {% else %}
                 {% if page <= limitPage %}
-                  <a href="/games/{{page}}">{{page}}</a>
+                  {% if page != indexOfPage%}
+                    <a href="/games/{{page}}">{{page}}</a>
+                  {% endif %}
                 {% endif %}
             {% endif %}
           {% endfor %}
