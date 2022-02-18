@@ -106,34 +106,36 @@
         {% if schearch %}
           <div class="blocInfoJeu">
           <div class="ligneInfoJeu">
+            <div><img src="{{gameInfo.cover.url}}"></img></div>
             <div>{{gameInfo.name}}</div>
-            <div>
-              <p>Plateforme :</p>
-                {% for platform in gameInfo.platforms%}
-                  <p>{{platform.name}}</p>
-                {% endfor %}
-              </div>
+          </div>
+          <div class="infoPlatform">
+            <h3>Plateforme :</h3>
+              {% for platform in gameInfo.platforms%}
+                <p>{{platform.name}}</p>
+              {% endfor %}
           </div>
           <div class="gridInfoGame">
               {% for screen in gameInfo.game_screenshots%}
-                <div><img src="{{screen.url}}"></img></div>
+                <div class="imageScreenShots"><img src="{{screen.url}}"></img></div>
               {% endfor %}
           </div>
         </div>
         {% else %}
           <div class="blocInfoJeu">
             <div class="ligneInfoJeu">
+              <div><img src="{{gameInfo.cover.url}}"></img></div>
               <div>{{gameInfo.name}}</div>
-              <div>
-              <p>Plateforme :</p>
+            </div>
+            <div class="infoPlatform">
+              <h3>Plateforme :</h3>
                 {% for platform in gameInfo.platforms%}
                   <p>{{platform.name}}</p>
                 {% endfor %}
-              </div>
             </div>
             <div class="gridInfoGame">
                 {% for screen in gameInfo.screenshots%}
-                  <div><img src="{{screen.url}}"></img></div>
+                  <div class="imageScreenShots"><img src="{{screen.url}}"></img></div>
                 {% endfor %}
             </div>
           </div>
@@ -159,34 +161,36 @@
         {% if schearch %}
           <div class="blocInfoJeu">
           <div class="ligneInfoJeu">
+            <div><img src="{{gameInfo.cover.url}}"></img></div>
             <div>{{gameInfo.name}}</div>
-            <div>
-              <p>Plateforme :</p>
+          </div>
+          <div class="infoPlatform">
+              <h3>Plateforme :</h3>
                 {% for platInfo in gameInfo.games_platforms%}
                   <p>{{platInfo.platform.name}}</p>
                 {% endfor %}
               </div>
-          </div>
           <div class="gridInfoGame">
               {% for screen in gameInfo.game_screenshots%}
-                <div><img src="{{screen.url}}"></img></div>
+                <div class="imageScreenShots"><img src="{{screen.url}}"></img></div>
               {% endfor %}
           </div>
         </div>
         {% else %}
           <div class="blocInfoJeu">
             <div class="ligneInfoJeu">
+              <div><img src="{{gameInfo.cover.url}}"></img></div>
               <div>{{gameInfo.name}}</div>
-              <div>
-              <p>Plateforme :</p>
+            </div>
+            <div class="infoPlatform">
+              <h3>Plateforme :</h3>
                 {% for platform in gameInfo.platforms%}
                   <p>{{platform.name}}</p>
                 {% endfor %}
               </div>
-            </div>
             <div class="gridInfoGame">
                 {% for screen in gameInfo.screenshots%}
-                  <div><img src="{{screen.url}}"></img></div>
+                  <div class="imageScreenShots"><img src="{{screen.url}}"></img></div>
                 {% endfor %}
             </div>
           </div>
