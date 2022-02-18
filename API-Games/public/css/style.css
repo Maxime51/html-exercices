@@ -179,10 +179,8 @@ a{
   transition: all .5s;
 }
 #lateral-panel-bloc button{
-
   font-size: 30px;
-
-
+  background-color:#5D5D5D
 }
 #lateral-panel-label:before {
   content: "";
@@ -200,4 +198,13 @@ a{
 }
 #lateral-panel-input:checked ~ #lateral-panel-label:before {
   transform: translate(-50%, -50%) rotate(-135deg);
+}
+.navPage{
+  margin-left: 300px;
+  display: flex;
+  flex-direction: row;
+}
+.nbPage{
+  padding-left: 10px;
+  padding-right: 10px;
 }

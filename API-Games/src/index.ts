@@ -9,9 +9,9 @@ nunjucks.configure("views", {
   express: app,
 });
 // declaration des variables utilisés par different bloc
-let indexOfPage: string;
+let indexOfPage: number;
 let games: [];
-let indexPageGame: string;
+let indexPageGame: number;
 let gamePlatforms: string[];
 let listGames: string[];
 let idPlatform: string;
@@ -38,7 +38,7 @@ app.get("/platforms", (req, response) => {
 
 //création de route home affiche liste plateformes
 app.get("/platforms/:pages", (req, response) => {
-  indexOfPage = req.params.pages;
+  indexOfPage = parseInt(req.params.pages);
   request(`http://videogame-api.fly.dev/platforms?page=${indexOfPage}`, (error, body) => {
     if (error) {
       console.error(error);
@@ -81,7 +81,7 @@ app.get("/games", (req, response) => {
   });
 });
 app.get("/games/:pages", (req, response) => {
-  indexOfPage = req.params.pages;
+  indexOfPage = parseInt(req.params.pages);
   request(`http://videogame-api.fly.dev/games?page=${indexOfPage}`, (error, body) => {
     if (error) {
       console.error(error);
@@ -98,7 +98,7 @@ app.get("/games/:platform/:page", (req, response) => {
   idPlatform = "";
   idPlatform = req.params.platform;
   const stringRecupArray = idPlatform.split(":");
-  indexPageGame = req.params.page;
+  indexPageGame = parseInt(req.params.page);
   request(
     `http://videogame-api.fly.dev/games/platforms/${stringRecupArray[0]}?page=${indexPageGame}`,
     (error, body) => {

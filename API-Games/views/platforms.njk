@@ -4,16 +4,36 @@
 <a href="/"><button>Retour</button></a>
 {% endblock %}
 {% block contenu%}
-  <div>
-  <select name="page" id="page-select" onChange="location = this.options[this.selectedIndex].value;">
-    {% for page in numberOFPagesArray%}
-      {% if page == indexOfPage %}
-        <option value="/platforms/{{page}}" selected>Page {{page}}</option>
-      {% else %}
-        <option value="/platforms/{{page}}">Page {{page}}</option>
-      {% endif %}
-    {% endfor %}
-  </select>
+  <div class="navPage">
+    <a href="/platforms/1"><<</a>
+    {% if indexOfPage == 0%}
+
+    {% else %}
+      <a href="/platforms/{{indexOfPage-1}}"><</a>
+    {% endif %}
+    <div class="nbPage">
+      {% set limitPage = 5 %}
+      {% for page in numberOFPagesArray %}
+        {% if indexOfPage > limitPage %}
+          {% set itterator = page + indexOfPage%}
+            {% if itterator <= limitPage + (indexPageGame) %}
+              {% if itterator <= numberOFPagesArray.length %}
+                <a href="/platforms/{{itterator}}">{{itterator}}</a>
+              {% endif %}
+            {% endif %}
+        {% else %}
+          {% if page <= limitPage %}
+            <a href="/platforms/{{page}}">{{page}}</a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% if indexOfPage == numberOFPagesArray.length%}
+    {% else %}
+      <a href="/platforms/{{indexOfPage+1}}">></a>
+    {% endif %}
+
+    <a href="/platforms/{{numberOFPagesArray.length}}">>></a>
   </div>
   <div class="blocPlatforms">
     {% for platform in platforms%}

@@ -2,30 +2,68 @@
 
   {% block top%}
     {% if pagePlatformOrigin %}
-      <a href="/"><button>Retour</button></a>
-    <select name="page" id="page-select" onChange="location = this.options[this.selectedIndex].value;">
-      {% for page in numberOFPagesGames%}
-        {% if page == indexPageGame %}
-        <option selected value="/games/{{idPlatform}}/{{page}}">Page {{page}}</option>
+    <a href="/"><button>Retour</button></a>
+    <div class="navPage">
+    <a href="/games/{{idPlatform}}/1"><<</a>
+    {% if indexPageGame == 0%}
+    {% else %}
+      <a href="/games/{{idPlatform}}/{{indexPageGame-1}}"><</a>
+    {% endif %}
+    <div class="nbPage">
+      {% set limitPage = 10 %}
+      {% for page in numberOFPagesGames %}
+        {% if indexPageGame >= limitPage %}
+          {% set itterator = page + indexPageGame%}
+            {% if itterator <= limitPage + (indexPageGame) %}
+              {% if itterator <= numberOFPagesGames.length %}
+                <a href="/games/{{idPlatform}}/{{itterator}}">{{itterator}}</a>
+              {% endif %}
+            {% endif %}
         {% else %}
-          <option value="/games/{{idPlatform}}/{{page}}">Page {{page}}</option>
+          {% if page <= limitPage %}
+            <a href="/games/{{idPlatform}}/{{page}}">{{page}}</a>
+          {% endif %}
         {% endif %}
       {% endfor %}
-    </select>
     </div>
+    {% if indexPageGame == numberOFPagesGames.length%}
     {% else %}
-      <a href="/"><button>Retour</button></a>
-      <div>
-      <select name="page" id="page-select" onChange="location = this.options[this.selectedIndex].value;">
-        {% for page in numberOFPagesGames%}
-          {% if page == indexOfPage %}
-          <option selected value="/games/{{page}}">Page {{page}}</option>
-          {% else %}
-            <option value="/games/{{page}}">Page {{page}}</option>
+      <a href="/games/{{idPlatform}}/{{indexPageGame+1}}">></a>
+    {% endif %}
+    <a href="/games/{{idPlatform}}/{{numberOFPagesGames.length}}">>></a>
+  </div>
+    {% else %}
+    <a href="/"><button>Retour</button></a>
+    <div class="navPage">
+    <a href="/games/{{idPlatform}}/1"><<</a>
+    {% if indexPageGame == 0%}
+    {% else %}
+      <a href="/games/{{idPlatform}}/{{indexPageGame-1}}"><</a>
+    {% endif %}
+    <div class="nbPage">
+      {% set limitPage = 10 %}
+      {% for page in numberOFPagesGames %}
+        {% if indexPageGame > limitPage %}
+          {% set itterator = page + indexPageGame%}
+            {% if itterator <= limitPage + (indexPageGame) %}
+              {% if itterator <= numberOFPagesGames.length %}
+                <a href="/games/{{idPlatform}}/{{itterator}}">{{itterator}}</a>
+              {% endif %}
+            {% endif %}
+        {% else %}
+          {% if page <= limitPage %}
+            <a href="/games/{{idPlatform}}/{{page}}">{{page}}</a>
           {% endif %}
-        {% endfor %}
-      </select>
+        {% endif %}
+      {% endfor %}
     </div>
+    {% if indexPageGame == numberOFPagesGames.length%}
+    {% else %}
+      <a href="/games/{{idPlatform}}/{{indexPageGame+1}}">></a>
+    {% endif %}
+
+    <a href="/games/{{idPlatform}}/{{numberOFPagesGames.length}}">>></a>
+  </div>
     {% endif %}
   {% endblock %}
   {% block contenu%}
