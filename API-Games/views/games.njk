@@ -5,10 +5,12 @@
     {% if pagePlatformOrigin%}
       <a href="/"><button>Retour</button></a>
       <div class="navPage">
-        {% if indexPageGame == 1%}
+        {% if indexPageGame == 1 or indexPageGame == 0%}
+          <a href="/games/{{idPlatform}}/1"><button disabled="disabled"><<</button></a>
+          <a href="/games/{{idPlatform}}/{{indexPageGame-10}}"><button disabled="disabled"><</button></a>
         {% else %}
-          <a href="/games/{{idPlatform}}/1"><<</a>
-          <a href="/games/{{idPlatform}}/{{indexPageGame-10}}"><</a>
+          <a href="/games/{{idPlatform}}/1"><button><<</button></a>
+          <a href="/games/{{idPlatform}}/{{indexPageGame-10}}"><button><</button></a>
         {% endif %}
         <div class="nbPage">
           {% set limitPage = 10 %}
@@ -17,34 +19,38 @@
             {% set itterator = page + indexPageGame%}
             {% if itterator <= limitPage + (indexPageGame) %}
               {% if itterator <= numberOFPagesGames.length %}
-                <a href="/games/{{idPlatform}}/{{itterator}}">{{itterator}}</a>
+                <a href="/games/{{idPlatform}}/{{itterator}}"><button>{{itterator}}</button></a></a>
               {% endif %}
             {% endif %}
             {% else %}
               {% if page <= limitPage %}
                 {% if page != indexPageGame%}
-                  <a href="/games/{{idPlatform}}/{{page}}">{{page}}</a>
+                  <a href="/games/{{idPlatform}}/{{page}}"><button>{{page}}</button></a></a>
                 {% endif %}
               {% endif %}
             {% endif %}
           {% endfor %}
         </div>
         {% if indexPageGame + limitPage >= numberOFPagesGames.length%}
-         <a href="/games/{{idPlatform}}/1">></a>
+            <a href="/games/{{idPlatform}}/1"><button disabled="disabled">></button></a>
+            <a href="/games/{{idPlatform}}/{{numberOFPagesGames.length}}"><button disabled="disabled">>></button></a>
         {% else %}
-          <a href="/games/{{idPlatform}}/{{indexPageGame+10}}">></a>
+          <a href="/games/{{idPlatform}}/{{indexPageGame+10}}"><button>></button></a>
+          <a href="/games/{{idPlatform}}/{{numberOFPagesGames.length}}"><button>>></button></a>
         {% endif %}
-        <a href="/games/{{idPlatform}}/{{numberOFPagesGames.length}}">>></a>
+
       </div>
     {% else %}
 <!-- BLOC pagination si origine route provient de games -->
       {% if schearch == false %}
         <a href="/"><button>Retour</button></a>
         <div class="navPage">
-          {% if indexOfPage == 1%}
+          {% if indexOfPage == 1 or indexOfPage == 0 %}
+            <a href="/games/1"><button disabled="disabled"><<</button></a>
+            <a href="/games/{{indexOfPage-10}}"><button disabled="disabled"><</button></a>
           {% else %}
-          <a href="/games/1"><<</a>
-          <a href="/games/{{indexOfPage-10}}"><</a>
+            <a href="/games/1"><button><<</button></a>
+            <a href="/games/{{indexOfPage-10}}"><button><</button></a>
           {% endif %}
         <div class="nbPage">
           {% set limitPage = 10 %}
@@ -53,24 +59,26 @@
               {% set itterator = page + indexOfPage%}
               {% if itterator <= limitPage + (indexOfPage) %}
                 {% if itterator <= numberOFPagesGames.length %}
-                <a href="/games/{{itterator}}">{{itterator}}</a>
+                <a href="/games/{{itterator}}"><button>{{itterator}}</button></a></a>
                 {% endif %}
               {% endif %}
               {% else %}
                 {% if page <= limitPage %}
                   {% if page != indexOfPage%}
-                    <a href="/games/{{page}}">{{page}}</a>
+                    <a href="/games/{{page}}"><button>{{page}}</button></a></a>
                   {% endif %}
                 {% endif %}
             {% endif %}
           {% endfor %}
           </div>
           {% if indexOfPage + limitPage >= numberOFPagesGames.length%}
-            <a href="/games/1">></a>
+            <a href="/games/{{indexOfPage+10}}"><button disabled="disabled">></button></a>
+            <a href="/games/{{numberOFPagesGames.length}}"><button disabled="disabled">>></button></a>
           {% else %}
-            <a href="/games/{{indexOfPage+10}}">></a>
+            <a href="/games/{{indexOfPage+10}}"><button>></button></a>
+            <a href="/games/{{numberOFPagesGames.length}}"><button>>></button></a>
           {% endif %}
-          <a href="/games/{{numberOFPagesGames.length}}">>></a>
+
         </div>
       {% else %}
         <a href="/"><button>Retour</button></a>

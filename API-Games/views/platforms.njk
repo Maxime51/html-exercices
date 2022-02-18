@@ -6,9 +6,11 @@
 {% block contenu%}
   <div class="navPage">
     {% if indexOfPage == 1 or indexOfPage == 0 %}
+      <a href="/platforms/1"><button disabled="disabled"><<</button></a>
+      <a href="/platforms/{{indexOfPage-5}}"><button disabled="disabled"><</button></a>
     {% else %}
-      <a href="/platforms/1"><<</a>
-      <a href="/platforms/{{indexOfPage-5}}"><</a>
+      <a href="/platforms/1"><button><<</button></a>
+      <a href="/platforms/{{indexOfPage-5}}"><button><</button></a>
     {% endif %}
     <div class="nbPage">
       {% set limitPage = 5 %}
@@ -17,25 +19,26 @@
           {% set itterator = page + indexOfPage%}
             {% if itterator <= limitPage + (indexOfPage) %}
               {% if itterator <= numberOFPagesArray.length %}
-                <a href="/platforms/{{itterator}}">{{itterator}}</a>
+                <a href="/platforms/{{itterator}}"><button>{{itterator}}</button></a>
               {% endif %}
             {% endif %}
         {% else %}
           {% if page <= limitPage %}
             {% if page != indexOfPage%}
-              <a href="/platforms/{{page}}">{{page}}</a>
+              <a href="/platforms/{{page}}"><button>{{page}}</button></a></a>
             {% endif %}
-
           {% endif %}
         {% endif %}
       {% endfor %}
     </div>
     {% if indexOfPage + limitPage  >= numberOFPagesArray.length%}
-      <a href="/platforms/1">></a>
+      <a href="/platforms/{{indexOfPage+5}}"><button disabled="disabled">></button></a>
+      <a href="/platforms/{{numberOFPagesArray.length}}"><button disabled="disabled">>></button></a>
     {% else %}
-      <a href="/platforms/{{indexOfPage+5}}">></a>
+      <a href="/platforms/{{indexOfPage+5}}"><button>></button></a>
+      <a href="/platforms/{{numberOFPagesArray.length}}"><button>>></button></a>
     {% endif %}
-    <a href="/platforms/{{numberOFPagesArray.length}}">>></a>
+
   </div>
   <div class="blocPlatforms">
     {% for platform in platforms%}
