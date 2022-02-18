@@ -23,6 +23,21 @@ app.get("/", (req, response) => {
   response.render("home");
 });
 
+app.get("/options/:test", (req, response) => {
+  const valueSelector = req.params.test;
+  let selector: boolean;
+  if (valueSelector === "platform") {
+    selector = true;
+  } else {
+    selector = false;
+  }
+
+  request("http://videogame-api.fly.dev/platforms", (error, body) => {
+    const listOfPlatforms = JSON.parse(body);
+    response.render("home", { selector, listOfPlatforms });
+  });
+});
+
 //création de route home
 let numberOFPagesArray: number[] = [];
 app.get("/platforms", (req, response) => {
@@ -88,7 +103,12 @@ app.get("/games/:pages", (req, response) => {
     } else {
       const json = JSON.parse(body);
       listGames = json.games;
-      response.render("games", { games: json.games, numberOFPagesGames: numberOFPagesArray, indexOfPage });
+      response.render("games", {
+        games: json.games,
+        numberOFPagesGames: numberOFPagesArray,
+        indexOfPage,
+        schearch: false,
+      });
     }
   });
 });
@@ -110,7 +130,7 @@ app.get("/games/:platform/:page", (req, response) => {
           gamePlatform: gamePlatforms,
           idPlatform,
           numberOFPagesGames,
-          schearch: true,
+          //schearch: true,
           indexOfPage,
           pagePlatformOrigin: true,
           indexPageGame,
@@ -173,9 +193,9 @@ app.post("/schearch", formParser, (req, response) => {
   // request.body contains an object with our named fields
   const category = req.body.category;
   const nameGame = req.body.nameGame;
+  const nameGameFormat = nameGame.split(" ").join("-");
+  const nameGameFormatSlug = nameGameFormat.split(":").join("").toLowerCase();
   if (category === "name") {
-    const nameGameFormat = nameGame.split(" ").join("-");
-    const nameGameFormatSlug = nameGameFormat.split(":").join("").toLowerCase();
     request(`http://videogame-api.fly.dev/games/slug/${nameGameFormatSlug}`, (error, body) => {
       if (error) {
         console.error(error);

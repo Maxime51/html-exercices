@@ -8,20 +8,33 @@
   <div><a href="/platforms"><button action=>List of Plateforms</button></a></div>
   <div> <a href="/games"><button action=>List of Games</button></a></div>
   <form class="formPlatName" method="POST" action="/schearch">
-    <select name="category" id="category-select">
-      <option value="name">Name</option>
-      <option value="platform">Plateform</option>
+    <select name="category" id="category-select" onchange="location = this.options[this.selectedIndex].id">
+      <option value="name" id="/options/name">Name</option>
+      {% if selector %}
+        <option selected value="platform" id="/options/platform">Plateform</option>
+      {% else %}
+        <option value="platform" id="/options/platform">Plateform</option>
+      {% endif %}
     </select>
-    <input type="text" name="nameGame" placeholder="Name Game" />
+      {% if selector %}
+        <select id="category-select" onchange="document.getElementById('inputReturn').value= this.options[this.selectedIndex].id">
+          {% for platform in listOfPlatforms.platforms %}
+            <option type="text" id="{{platform.name}}">{{platform.name}}</option>
+          {% endfor %}
+        </select>
+        <input id="inputReturn" type="hidden" name="nameGame" value="Windows Phone"/>
+      {% else %}
+        <input id="inputReturn" type="text" name="nameGame" placeholder="Name Game" />
+      {% endif %}
     <button type="submit">
-      Search
+      Schearch
     </button>
   </form>
   </div>
 </div>
 {% endblock %}
 {% block contenu%}
-<img src="/images/fondHome2.png" class="imgHome" />
+<img src="/images/fondHome.png" class="imgHome" />
 {% endblock %}
 
 

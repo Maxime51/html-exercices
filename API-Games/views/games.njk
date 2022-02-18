@@ -1,72 +1,80 @@
 {% extends "layout.njk" %}
 
   {% block top%}
-    {% if pagePlatformOrigin %}
-    <a href="/"><button>Retour</button></a>
-    <div class="navPage">
-    <a href="/games/{{idPlatform}}/1"><<</a>
-    {% if indexPageGame == 0%}
-    {% else %}
-      <a href="/games/{{idPlatform}}/{{indexPageGame-1}}"><</a>
-    {% endif %}
-    <div class="nbPage">
-      {% set limitPage = 10 %}
-      {% for page in numberOFPagesGames %}
-        {% if indexPageGame >= limitPage %}
-          {% set itterator = page + indexPageGame%}
+<!-- BLOC pagination si origine route provient de platforms -->
+    {% if pagePlatformOrigin%}
+      <a href="/"><button>Retour</button></a>
+      <div class="navPage">
+        {% if indexPageGame == 1%}
+        {% else %}
+          <a href="/games/{{idPlatform}}/1"><<</a>
+          <a href="/games/{{idPlatform}}/{{indexPageGame-10}}"><</a>
+        {% endif %}
+        <div class="nbPage">
+          {% set limitPage = 10 %}
+          {% for page in numberOFPagesGames %}
+            {% if indexPageGame >= limitPage %}
+            {% set itterator = page + indexPageGame%}
             {% if itterator <= limitPage + (indexPageGame) %}
               {% if itterator <= numberOFPagesGames.length %}
                 <a href="/games/{{idPlatform}}/{{itterator}}">{{itterator}}</a>
               {% endif %}
             {% endif %}
-        {% else %}
-          {% if page <= limitPage %}
-            <a href="/games/{{idPlatform}}/{{page}}">{{page}}</a>
-          {% endif %}
-        {% endif %}
-      {% endfor %}
-    </div>
-    {% if indexPageGame == numberOFPagesGames.length%}
-    {% else %}
-      <a href="/games/{{idPlatform}}/{{indexPageGame+1}}">></a>
-    {% endif %}
-    <a href="/games/{{idPlatform}}/{{numberOFPagesGames.length}}">>></a>
-  </div>
-    {% else %}
-    <a href="/"><button>Retour</button></a>
-    <div class="navPage">
-    <a href="/games/{{idPlatform}}/1"><<</a>
-    {% if indexPageGame == 0%}
-    {% else %}
-      <a href="/games/{{idPlatform}}/{{indexPageGame-1}}"><</a>
-    {% endif %}
-    <div class="nbPage">
-      {% set limitPage = 10 %}
-      {% for page in numberOFPagesGames %}
-        {% if indexPageGame > limitPage %}
-          {% set itterator = page + indexPageGame%}
-            {% if itterator <= limitPage + (indexPageGame) %}
-              {% if itterator <= numberOFPagesGames.length %}
-                <a href="/games/{{idPlatform}}/{{itterator}}">{{itterator}}</a>
+            {% else %}
+              {% if page <= limitPage %}
+              <a href="/games/{{idPlatform}}/{{page}}">{{page}}</a>
               {% endif %}
             {% endif %}
+          {% endfor %}
+        </div>
+        {% if indexPageGame + limitPage >= numberOFPagesGames.length%}
+         <a href="/games/{{idPlatform}}/1">></a>
         {% else %}
-          {% if page <= limitPage %}
-            <a href="/games/{{idPlatform}}/{{page}}">{{page}}</a>
-          {% endif %}
+          <a href="/games/{{idPlatform}}/{{indexPageGame+10}}">></a>
         {% endif %}
-      {% endfor %}
-    </div>
-    {% if indexPageGame == numberOFPagesGames.length%}
+        <a href="/games/{{idPlatform}}/{{numberOFPagesGames.length}}">>></a>
+      </div>
     {% else %}
-      <a href="/games/{{idPlatform}}/{{indexPageGame+1}}">></a>
-    {% endif %}
-
-    <a href="/games/{{idPlatform}}/{{numberOFPagesGames.length}}">>></a>
-  </div>
+<!-- BLOC pagination si origine route provient de games -->
+      {% if schearch == false %}
+        <a href="/"><button>Retour</button></a>
+        <div class="navPage">
+          {% if indexOfPage == 1%}
+          {% else %}
+          <a href="/games/1"><<</a>
+          <a href="/games/{{indexOfPage-10}}"><</a>
+          {% endif %}
+        <div class="nbPage">
+          {% set limitPage = 10 %}
+          {% for page in numberOFPagesGames %}
+            {% if indexOfPage > limitPage %}
+              {% set itterator = page + indexOfPage%}
+              {% if itterator <= limitPage + (indexOfPage) %}
+                {% if itterator <= numberOFPagesGames.length %}
+                <a href="/games/{{itterator}}">{{itterator}}</a>
+                {% endif %}
+              {% endif %}
+              {% else %}
+                {% if page <= limitPage %}
+                  <a href="/games/{{page}}">{{page}}</a>
+                {% endif %}
+            {% endif %}
+          {% endfor %}
+          </div>
+          {% if indexOfPage + limitPage >= numberOFPagesGames.length%}
+            <a href="/games/1">></a>
+          {% else %}
+            <a href="/games/{{indexOfPage+10}}">></a>
+          {% endif %}
+          <a href="/games/{{numberOFPagesGames.length}}">>></a>
+        </div>
+      {% else %}
+        <a href="/"><button>Retour</button></a>
+      {% endif %}
     {% endif %}
   {% endblock %}
   {% block contenu%}
+<!-- BLOC si origine route provient de platforms -->
   {% if pagePlatformOrigin %}
     <div><h1>{{namePlatForm}}</1></div>
     <div class="divContainer">
@@ -78,7 +86,6 @@
               <img src="{{game.cover.url}}"></img>
               <div>{{game.name}}</div>
             </div>
-
           </div>
         </a>
         {% endfor %}
@@ -122,6 +129,7 @@
       {% endif %}
     <div>
   {% else %}
+<!-- BLOC si origine route provient de games -->
     <div class="divContainer">
       <div class="blocGames">
         {% for game in games %}

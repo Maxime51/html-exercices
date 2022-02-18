@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "@fewlines-education/request": "^0.0.1",
+    "bootstrap": "^5.1.3",
     "express": "^4.17.2",
     "nunjucks": "^3.2.3"
   }
