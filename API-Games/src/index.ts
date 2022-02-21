@@ -1,6 +1,6 @@
 import express from "express";
 import nunjucks from "nunjucks";
-import request from "@fewlines-education/request";
+import fetch from "node-fetch";
 
 const app = express();
 
@@ -8,9 +8,9 @@ nunjucks.configure("views", {
   autoescape: true,
   express: app,
 });
+
 // declaration des variables utilisés par different bloc
 let indexOfPage: number;
-let games: [];
 let indexPageGame: number;
 let gamePlatforms: string[];
 let listGames: string[];
@@ -32,84 +32,90 @@ app.get("/options/:test", (req, response) => {
     selector = false;
   }
 
-  request("http://videogame-api.fly.dev/platforms", (error, body) => {
-    const listOfPlatforms = JSON.parse(body);
+  getData("http://videogame-api.fly.dev/platforms").then((listOfPlatforms) => {
     response.render("home", { selector, listOfPlatforms });
   });
 });
 
-//création de route home
-let numberOFPagesArray: number[] = [];
-app.get("/platforms", (req, response) => {
-  request("http://videogame-api.fly.dev/platforms", (error, body) => {
-    const listOfPlatforms = JSON.parse(body);
-    numberOFPagesArray = [];
-    for (let i = 1; i <= listOfPlatforms.total / 20 + 1; i++) {
-      numberOFPagesArray.push(i);
+/************************************************************* */
+//declaration functon Promise
+/************************************************************* */
+
+//function getNumberPages
+function getNumberPages(url: string): Promise<number[]> {
+  return new Promise((resolve, reject) => {
+    const arrayPage = fetch(url)
+      .then((response) => response.json())
+      .then((result) => result.total)
+      .then((numberPage) => {
+        const tab = [];
+        for (let i = 1; i <= numberPage / 20 + 1; i++) {
+          tab.push(i);
+        }
+        return tab;
+      });
+    if (arrayPage !== null) {
+      resolve(arrayPage);
+    } else {
+      reject("error");
     }
-    response.redirect(`platforms/1`);
   });
+}
+//function send list of platforms
+function getData(url: string): Promise<any> {
+  return new Promise((resolve, reject) => {
+    const listData = fetch(url).then((data) => data.json());
+    if (listData !== null) {
+      resolve(listData);
+    } else {
+      reject("error");
+    }
+  });
+}
+
+app.get("/platforms", (req, response) => {
+  response.redirect(`platforms/1`);
 });
 
 //création de route home affiche liste plateformes
 app.get("/platforms/:pages", (req, response) => {
   indexOfPage = parseInt(req.params.pages);
-  request(`http://videogame-api.fly.dev/platforms?page=${indexOfPage}`, (error, body) => {
-    if (error) {
-      console.error(error);
-    } else {
-      const json = JSON.parse(body);
-      response.render("platforms", { platforms: json.platforms, numberOFPagesArray, indexOfPage });
-    }
+  getData(`http://videogame-api.fly.dev/platforms?page=${indexOfPage}`).then((platformsArray) => {
+    getNumberPages("http://videogame-api.fly.dev/platforms").then((pages) => {
+      response.render("platforms", {
+        platforms: platformsArray.platforms,
+        numberOFPagesArray: pages,
+        indexOfPage,
+      });
+    });
   });
 });
 
 //route liste games plateforme
-let numberOFPagesGames: number[] = [];
 app.get("/platforms/games/:platform", (req, response) => {
   const stringRecup = req.params.platform;
   const stringRecupArray = stringRecup.split(":");
-  request(`http://videogame-api.fly.dev/games/platforms/${stringRecupArray[0]}`, (error, body) => {
-    if (error) {
-      console.error(error);
-    } else {
-      const gamePlatform = JSON.parse(body);
-      numberOFPagesGames = [];
-      for (let i = 1; i <= gamePlatform.total / 20 + 1; i++) {
-        numberOFPagesGames.push(i);
-      }
-      response.redirect(`/games/${stringRecup}/1`);
-    }
-  });
+  response.redirect(`/games/${stringRecup}/1`);
 });
 
 //route liste games
 
 app.get("/games", (req, response) => {
-  request("http://videogame-api.fly.dev/games", (error, body) => {
-    const listOfPlatGames = JSON.parse(body);
-    numberOFPagesArray = [];
-    for (let i = 1; i <= listOfPlatGames.total / 20 + 1; i++) {
-      numberOFPagesArray.push(i);
-    }
-    response.redirect(`games/1`);
-  });
+  response.redirect(`games/1`);
 });
+
 app.get("/games/:pages", (req, response) => {
   indexOfPage = parseInt(req.params.pages);
-  request(`http://videogame-api.fly.dev/games?page=${indexOfPage}`, (error, body) => {
-    if (error) {
-      console.error(error);
-    } else {
-      const json = JSON.parse(body);
-      listGames = json.games;
+
+  getData(`http://videogame-api.fly.dev/games?page=${indexOfPage}`).then((listGames) => {
+    getNumberPages("http://videogame-api.fly.dev/games").then((pages) => {
       response.render("games", {
-        games: json.games,
-        numberOFPagesGames: numberOFPagesArray,
+        games: listGames.games,
+        numberOFPagesGames: pages,
         indexOfPage,
         schearch: false,
       });
-    }
+    });
   });
 });
 
@@ -119,24 +125,20 @@ app.get("/games/:platform/:page", (req, response) => {
   idPlatform = req.params.platform;
   const stringRecupArray = idPlatform.split(":");
   indexPageGame = parseInt(req.params.page);
-  request(
-    `http://videogame-api.fly.dev/games/platforms/${stringRecupArray[0]}?page=${indexPageGame}`,
-    (error, body) => {
-      if (error) {
-        console.error(error);
-      } else {
-        gamePlatforms = JSON.parse(body).games;
+
+  getData(`http://videogame-api.fly.dev/games/platforms/${stringRecupArray[0]}?page=${indexPageGame}`).then(
+    (gamePlatforms) => {
+      getNumberPages(`http://videogame-api.fly.dev/games/platforms/${stringRecupArray[0]}`).then((pages) => {
         response.render("games", {
-          gamePlatform: gamePlatforms,
+          gamePlatform: gamePlatforms.games,
+          numberOFPagesGames: pages,
           idPlatform,
-          numberOFPagesGames,
-          //schearch: true,
+          indexPageGame,
           indexOfPage,
           pagePlatformOrigin: true,
-          indexPageGame,
           namePlatForm: stringRecupArray[1],
         });
-      }
+      });
     },
   );
 });
@@ -148,39 +150,33 @@ app.get("/games/:platform/:name/:game", (req, response) => {
   const idGame = req.params.game;
 
   if (idPlatform === "game") {
-    request(`http://videogame-api.fly.dev/games/${idGame}`, (error, body) => {
-      if (error) {
-        console.error(error);
-      } else {
-        const gameInfo = JSON.parse(body);
+    getData(`http://videogame-api.fly.dev/games/${idGame}`).then((gameInfo) => {
+      getNumberPages("http://videogame-api.fly.dev/platforms").then((pages) => {
         response.render("games", {
           games: listGames,
           idPlatform,
-          numberOFPagesGames: numberOFPagesArray,
+          numberOFPagesGames: pages,
           gameInfo,
           afficheBloc: true,
           indexPageGame,
           indexOfPage,
         });
-      }
+      });
     });
   } else {
-    request(`http://videogame-api.fly.dev/games/${idGame}`, (error, body) => {
-      if (error) {
-        console.error(error);
-      } else {
-        const gameInfo = JSON.parse(body);
+    getData(`http://videogame-api.fly.dev/games/${idGame}`).then((gameInfo) => {
+      getNumberPages("http://videogame-api.fly.dev/platforms").then((pages) => {
         response.render("games", {
           gamePlatform: gamePlatforms,
           idPlatform,
-          numberOFPagesGames,
+          numberOFPagesGames: pages,
           gameInfo,
           pagePlatformOrigin: true,
           afficheBloc: true,
           indexPageGame,
           indexOfPage,
         });
-      }
+      });
     });
   }
 });
@@ -196,26 +192,24 @@ app.post("/schearch", formParser, (req, response) => {
   const nameGameFormat = nameGame.split(" ").join("-");
   const nameGameFormatSlug = nameGameFormat.split(":").join("").toLowerCase();
   if (category === "name") {
-    request(`http://videogame-api.fly.dev/games/slug/${nameGameFormatSlug}`, (error, body) => {
-      if (error) {
-        console.error(error);
-      } else {
-        const game = JSON.parse(body);
-        response.render("games", { gameInfo: game, afficheBloc: true, schearch: true, pagePlatformOrigin: false });
-      }
+    getData(`http://videogame-api.fly.dev/games/slug/${nameGameFormatSlug}`).then((game) => {
+      getNumberPages("http://videogame-api.fly.dev/games").then((pages) => {
+        response.render("games", {
+          gameInfo: game,
+          afficheBloc: true,
+          schearch: true,
+          pagePlatformOrigin: false,
+        });
+      });
     });
   } else if (category === "platform") {
-    request(`http://videogame-api.fly.dev/platforms`, (error, body) => {
-      if (error) {
-        console.error(error);
-      } else {
-        const platForms = JSON.parse(body);
-        const platFormSchearch = platForms.platforms.filter(
-          (element: { id: string; name: string; slug: string; category: string; summary: string; logo: [] }) =>
-            element.name === nameGame,
-        );
-        response.redirect(`/platforms/games/${platFormSchearch[0].id}`);
-      }
+    getData(`http://videogame-api.fly.dev/platforms`).then((platForms) => {
+      const platFormSchearch = platForms.platforms.filter(
+        (element: { id: string; name: string; slug: string; category: string; summary: string; logo: [] }) =>
+          element.name === nameGame,
+      );
+      console.log(platFormSchearch[0].id);
+      response.redirect(`/platforms/games/${platFormSchearch[0].id}`);
     });
   }
 });

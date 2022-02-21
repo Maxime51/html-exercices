@@ -1,0 +1,76 @@
+numberOFPagesArray = [];
+  getNumberPages("http://videogame-api.fly.dev/platforms").then((element) => {
+    for (let i = 1; i <= element / 20 + 1; i++) {
+      numberOFPagesArray.push(i);
+    }
+  });
+
+   request(`http://videogame-api.fly.dev/games/platforms/${stringRecupArray[0]}`, (error, body) => {
+    if (error) {
+      console.error(error);
+    } else {
+      const gamePlatform = JSON.parse(body);
+      numberOFPagesGames = [];
+      for (let i = 1; i <= gamePlatform.total / 20 + 1; i++) {
+        numberOFPagesGames.push(i);
+      }
+      response.redirect(`/games/${stringRecup}/1`);
+    }
+  });
+
+  app.get("/games", (req, response) => {
+
+    request("http://videogame-api.fly.dev/games", (error, body) => {
+      const listOfPlatGames = JSON.parse(body);
+      numberOFPagesArray = [];
+      for (let i = 1; i <= listOfPlatGames.total / 20 + 1; i++) {
+        numberOFPagesArray.push(i);
+      }
+      response.redirect(`games/1`);
+    });
+  });
+
+
+  request(`http://videogame-api.fly.dev/games?page=${indexOfPage}`, (error, body) => {
+    if (error) {
+      console.error(error);
+    } else {
+      const json = JSON.parse(body);
+      listGames = json.games;
+      response.render("games", {
+        games: json.games,
+        numberOFPagesGames: numberOFPagesArray,
+        indexOfPage,
+        schearch: false,
+      });
+    }
+  });
+
+  app.get("/games/:platform/:page", (req, response) => {
+    gamePlatforms = [];
+    idPlatform = "";
+    idPlatform = req.params.platform;
+    const stringRecupArray = idPlatform.split(":");
+    indexPageGame = parseInt(req.params.page);
+    request(
+      `http://videogame-api.fly.dev/games/platforms/${stringRecupArray[0]}?page=${indexPageGame}`,
+      (error, body) => {
+        if (error) {
+          console.error(error);
+        } else {
+          gamePlatforms = JSON.parse(body).games;
+          response.render("games", {
+            gamePlatform: gamePlatforms,
+            idPlatform,
+            numberOFPagesGames,
+            //schearch: true,
+            indexOfPage,
+            pagePlatformOrigin: true,
+            indexPageGame,
+            namePlatForm: stringRecupArray[1],
+          });
+        }
+      },
+    );
+  });
+
