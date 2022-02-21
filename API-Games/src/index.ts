@@ -127,10 +127,11 @@ app.get("/games/:platform/:page", (req, response) => {
   indexPageGame = parseInt(req.params.page);
 
   getData(`http://videogame-api.fly.dev/games/platforms/${stringRecupArray[0]}?page=${indexPageGame}`).then(
-    (gamePlatforms) => {
+    (gamePlat) => {
+      gamePlatforms = gamePlat.games;
       getNumberPages(`http://videogame-api.fly.dev/games/platforms/${stringRecupArray[0]}`).then((pages) => {
         response.render("games", {
-          gamePlatform: gamePlatforms.games,
+          gamePlatform: gamePlat.games,
           numberOFPagesGames: pages,
           idPlatform,
           indexPageGame,
