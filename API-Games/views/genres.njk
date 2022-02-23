@@ -1,0 +1,59 @@
+{% extends "layout.njk" %}
+
+{% block top%}
+<a href="/"><button>Retour</button></a>
+{% endblock %}
+{% block contenu%}
+  <div class="navPage">
+    {% if indexOfPage == 1 or indexOfPage == 0 %}
+      <a href="/genres/1"><button disabled="disabled"><<</button></a>
+      <a href="/genres/{{indexOfPage-5}}"><button disabled="disabled"><</button></a>
+    {% else %}
+      <a href="/genres/1"><button><<</button></a>
+      <a href="/genres/{{indexOfPage-5}}"><button><</button></a>
+    {% endif %}
+    <div class="nbPage">
+      {% set limitPage = 5 %}
+      {% for page in numberOFPagesArray %}
+        {% if indexOfPage >= limitPage %}
+          {% set itterator = page + indexOfPage%}
+            {% if itterator <= limitPage + (indexOfPage) %}
+              {% if itterator <= numberOFPagesArray.length %}
+                <a href="/genres/{{itterator}}"><button>{{itterator}}</button></a>
+              {% endif %}
+            {% endif %}
+        {% else %}
+          {% if page <= limitPage %}
+            {% if page != indexOfPage%}
+              <a href="/genres/{{page}}"><button>{{page}}</button></a></a>
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% if indexOfPage + limitPage  >= numberOFPagesArray.length%}
+      <a href="/genres/{{indexOfPage+5}}"><button disabled="disabled">></button></a>
+      <a href="/genres/{{numberOFPagesArray.length}}"><button disabled="disabled">>></button></a>
+    {% else %}
+      <a href="/genres/{{indexOfPage+5}}"><button>></button></a>
+      <a href="/genres/{{numberOFPagesArray.length}}"><button>>></button></a>
+    {% endif %}
+
+  </div>
+  <div class="blocPlatforms">
+    {% for platform in platforms%}
+      <a href="/genres/games/{{platform.id}}:{{platform.name}}">
+      <div class="ligneDivPlatforms">
+        <div>
+          {% if platform.logo.url == null%}
+            <div class="namePlatform">{{platform.name}}</div>
+          {% else %}
+            <img src="{{platform.logo.url}}"></img>
+            <div class="namePlatform">{{platform.name}}</div>
+          {% endif %}
+        </div>
+      </div>
+      </a>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,59 +1,101 @@
 {% extends "layout.njk" %}
 
 {% block top%}
-<a href="/"><button>Retour</button></a>
-{% endblock %}
-{% block contenu%}
-  <div class="navPage">
-    {% if indexOfPage == 1 or indexOfPage == 0 %}
-      <a href="/platforms/1"><button disabled="disabled"><<</button></a>
-      <a href="/platforms/{{indexOfPage-5}}"><button disabled="disabled"><</button></a>
-    {% else %}
-      <a href="/platforms/1"><button><<</button></a>
-      <a href="/platforms/{{indexOfPage-5}}"><button><</button></a>
-    {% endif %}
-    <div class="nbPage">
+
+<div class="container-fluid pageSelector">
+  <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center pageSelector">
+      {% if indexOfPage == 1 or indexOfPage == 0 %}
+        <li class="page-item disabled">
+          <a class="page-link" href="/platforms/1" aria-label="Previous">
+          <span aria-hidden="true">&laquo;&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item disabled">
+          <a class="page-link" href="/platforms/{{indexOfPage-5}}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item">
+          <a class="page-link" href="/platforms/1" aria-label="Previous">
+          <span aria-hidden="true" disabled="disabled">&laquo;&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="/platforms/{{indexOfPage-5}}" aria-label="Previous">
+          <span aria-hidden="true" disabled="disabled">&laquo;</span>
+          </a>
+        </li>
+      {% endif %}
       {% set limitPage = 5 %}
       {% for page in numberOFPagesArray %}
         {% if indexOfPage >= limitPage %}
           {% set itterator = page + indexOfPage%}
             {% if itterator <= limitPage + (indexOfPage) %}
               {% if itterator <= numberOFPagesArray.length %}
-                <a href="/platforms/{{itterator}}"><button>{{itterator}}</button></a>
+                <li class="page-item"><a class="page-link" href="/platforms/{{itterator}}">{{itterator}}</a></li>
               {% endif %}
             {% endif %}
         {% else %}
           {% if page <= limitPage %}
             {% if page != indexOfPage%}
-              <a href="/platforms/{{page}}"><button>{{page}}</button></a></a>
+              <li class="page-item"><a class="page-link" href="/platforms/{{page}}">{{page}}</a></li>
             {% endif %}
           {% endif %}
         {% endif %}
       {% endfor %}
-    </div>
-    {% if indexOfPage + limitPage  >= numberOFPagesArray.length%}
-      <a href="/platforms/{{indexOfPage+5}}"><button disabled="disabled">></button></a>
-      <a href="/platforms/{{numberOFPagesArray.length}}"><button disabled="disabled">>></button></a>
-    {% else %}
-      <a href="/platforms/{{indexOfPage+5}}"><button>></button></a>
-      <a href="/platforms/{{numberOFPagesArray.length}}"><button>>></button></a>
-    {% endif %}
-
-  </div>
-  <div class="blocPlatforms">
-    {% for platform in platforms%}
-      <a href="/platforms/games/{{platform.id}}:{{platform.name}}">
-      <div class="ligneDivPlatforms">
-        <div>
-          {% if platform.logo.url == null%}
-            <div class="namePlatform">{{platform.name}}</div>
-          {% else %}
-            <img src="{{platform.logo.url}}"></img>
-            <div class="namePlatform">{{platform.name}}</div>
-          {% endif %}
+      {% if indexOfPage + limitPage  >= numberOFPagesArray.length%}
+        <li class="page-item disabled">
+          <a class="page-link" href="/platforms/{{indexOfPage+5}}" aria-label="Next">
+          <span aria-hidden="true" disabled="disabled">&raquo;</span>
+          </a>
+        </li>
+        <li class="page-item disabled">
+          <a class="page-link" href="/platforms/{{numberOFPagesArray.length}}" aria-label="Next">
+          <span aria-hidden="true" disabled="disabled">&raquo;&raquo;</span>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item">
+          <a class="page-link" href="/platforms/{{indexOfPage+5}}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="/platforms/{{numberOFPagesArray.length}}" aria-label="Next">
+          <span aria-hidden="true">&raquo;&raquo;</span>
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+{% endblock %}
+{% block contenu%}
+<div class="container-fluid">
+  <div class="container">
+    <div class="row">
+        <div class="col-md-12 blocCentrale">
+          <div class="row">
+            {% for platform in platforms%}
+              <div class="col">
+                <div class="card" style="width: 18rem;">
+                  {% if platform.logo.url == null%}
+                    <img src="..." class="card-img-top" alt="">
+                  {% else %}
+                    <img src="{{platform.logo.url}}" class="card-img-top" alt="">
+                  {% endif %}
+                  <div class="card-body">
+                    <h5 class="card-title">{{platform.name}}</h5>
+                    <a href="/platforms/games/{{platform.id}}:{{platform.name}}" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
         </div>
-      </div>
-      </a>
-    {% endfor %}
+    </div>
   </div>
+</div>
 {% endblock %}

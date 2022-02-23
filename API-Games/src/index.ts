@@ -77,6 +77,30 @@ app.get("/platforms", (req, response) => {
   response.redirect(`platforms/1`);
 });
 
+app.get("/genres", (req, response) => {
+  response.redirect(`genres/1`);
+});
+
+app.get("/genres/:pages", (req, response) => {
+  indexOfPage = parseInt(req.params.pages);
+  getData(`http://videogame-api.fly.dev/genres?page=${indexOfPage}`).then((genresArray) => {
+    console.log(genresArray);
+    getNumberPages("http://videogame-api.fly.dev/genres").then((pages) => {
+      response.render("genres", {
+        platforms: genresArray.genres,
+        numberOFPagesArray: pages,
+        indexOfPage,
+      });
+    });
+  });
+});
+
+app.get("/genres/games/:genre", (req, response) => {
+  const stringRecup = req.params.genre;
+  const stringRecupArray = stringRecup.split(":");
+  response.redirect(`/games/${stringRecup}:genre/1`);
+});
+
 //création de route home affiche liste plateformes
 app.get("/platforms/:pages", (req, response) => {
   indexOfPage = parseInt(req.params.pages);
@@ -126,22 +150,41 @@ app.get("/games/:platform/:page", (req, response) => {
   const stringRecupArray = idPlatform.split(":");
   indexPageGame = parseInt(req.params.page);
 
-  getData(`http://videogame-api.fly.dev/games/platforms/${stringRecupArray[0]}?page=${indexPageGame}`).then(
-    (gamePlat) => {
-      gamePlatforms = gamePlat.games;
-      getNumberPages(`http://videogame-api.fly.dev/games/platforms/${stringRecupArray[0]}`).then((pages) => {
-        response.render("games", {
-          gamePlatform: gamePlat.games,
-          numberOFPagesGames: pages,
-          idPlatform,
-          indexPageGame,
-          indexOfPage,
-          pagePlatformOrigin: true,
-          namePlatForm: stringRecupArray[1],
+  if (stringRecupArray[2] === "genre") {
+    getData(`http://videogame-api.fly.dev/games/genres/${stringRecupArray[0]}?page=${indexPageGame}`).then(
+      (gameGenres) => {
+        gamePlatforms = gameGenres.games;
+        getNumberPages(`http://videogame-api.fly.dev/games/genres/${stringRecupArray[0]}`).then((pages) => {
+          response.render("games", {
+            gamePlatform: gameGenres.games,
+            numberOFPagesGames: pages,
+            idPlatform,
+            indexPageGame,
+            indexOfPage,
+            pagePlatformOrigin: true,
+            namePlatForm: stringRecupArray[1],
+          });
         });
-      });
-    },
-  );
+      },
+    );
+  } else {
+    getData(`http://videogame-api.fly.dev/games/platforms/${stringRecupArray[0]}?page=${indexPageGame}`).then(
+      (gamePlat) => {
+        gamePlatforms = gamePlat.games;
+        getNumberPages(`http://videogame-api.fly.dev/games/platforms/${stringRecupArray[0]}`).then((pages) => {
+          response.render("games", {
+            gamePlatform: gamePlat.games,
+            numberOFPagesGames: pages,
+            idPlatform,
+            indexPageGame,
+            indexOfPage,
+            pagePlatformOrigin: true,
+            namePlatForm: stringRecupArray[1],
+          });
+        });
+      },
+    );
+  }
 });
 
 //route liste games plateforme afficher en page
