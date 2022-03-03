@@ -50,7 +50,7 @@ const client = new MongoClient(databaseUrl);
 client.connect().then((client) => {
   const db = client.db();
 
-  db.collection<Film>("Films")
+  /*db.collection<Film>("Films")
     .find()
     .toArray()
     .then((films) => {
@@ -77,20 +77,46 @@ client.connect().then((client) => {
               });
           });
       });
-    });
+    });*/
 
   //load database in /films
   app.get("/films", (req, response) => {
-    response.render("films");
+    db.collection("Genres")
+      .find()
+      .toArray()
+      .then((dataGenres) => {
+        db.collection("Annees")
+          .find()
+          .toArray()
+          .then((dataAnnees) => {
+            response.render("films", { dataAnnees, dataGenres });
+          });
+      });
   });
 
-  app.get("/films/:slug", (req, response) => {
-    response.render("films");
+  app.get("/films/:genreSlug", async (req, response) => {
+    const genreSelected = new ObjectId(req.params.genreSlug);
+    console.log(genreSelected);
+
+    const films = await db.collection<Film>("Films").find({ genre: genreSelected }).toArray();
+
+    console.log(films);
+    response.render("films", { data: films });
   });
 
   //load database in /films
   app.get("/series", (req, response) => {
-    response.render("films");
+    db.collection("Genres")
+      .find()
+      .toArray()
+      .then((dataGenres) => {
+        db.collection("Annees")
+          .find()
+          .toArray()
+          .then((dataAnnees) => {
+            response.render("series", { dataAnnees, dataGenres });
+          });
+      });
   });
 });
 

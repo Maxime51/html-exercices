@@ -1,203 +1,225 @@
 {% extends "layout.njk" %}
 
   {% block top%}
-<!-- BLOC pagination si origine route provient de platforms -->
-    {% if pagePlatformOrigin%}
-      <a href="/"><button>Retour</button></a>
-      <div class="navPage">
+<!-- BLOC pagination-->
+  {% if pagePlatformOrigin%}
+  <div class="container-fluid pageSelector">
+    <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center pageSelector">
         {% if indexPageGame == 1 or indexPageGame == 0%}
-          <a href="/games/{{idPlatform}}/1"><button disabled="disabled"><<</button></a>
-          <a href="/games/{{idPlatform}}/{{indexPageGame-10}}"><button disabled="disabled"><</button></a>
+          <li class="page-item disabled">
+            <a class="page-link" href="/games/{{idPlatform}}/1" aria-label="Previous">
+            <span aria-hidden="true">&laquo;&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item disabled">
+            <a class="page-link" href="/games/{{idPlatform}}/{{indexPageGame-10}}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
         {% else %}
-          <a href="/games/{{idPlatform}}/1"><button><<</button></a>
-          <a href="/games/{{idPlatform}}/{{indexPageGame-10}}"><button><</button></a>
+          <li class="page-item">
+            <a class="page-link" href="/games/{{idPlatform}}/1" aria-label="Previous">
+            <span aria-hidden="true" disabled="disabled">&laquo;&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="/games/{{idPlatform}}/{{indexPageGame-10}}" aria-label="Previous">
+            <span aria-hidden="true" disabled="disabled">&laquo;</span>
+            </a>
+          </li>
         {% endif %}
-        <div class="nbPage">
-          {% set limitPage = 10 %}
-          {% for page in numberOFPagesGames %}
-            {% if indexPageGame >= limitPage %}
-            {% set itterator = page + indexPageGame%}
-            {% if itterator <= limitPage + (indexPageGame) %}
-              {% if itterator <= numberOFPagesGames.length %}
-                <a href="/games/{{idPlatform}}/{{itterator}}"><button>{{itterator}}</button></a></a>
-              {% endif %}
-            {% endif %}
-            {% else %}
-              {% if page <= limitPage %}
-                {% if page != indexPageGame%}
-                  <a href="/games/{{idPlatform}}/{{page}}"><button>{{page}}</button></a></a>
+        {% set limitPage = 10 %}
+            {% for page in numberOFPagesGames %}
+              {% if indexPageGame >= limitPage %}
+              {% set itterator = page + indexPageGame%}
+              {% if itterator <= limitPage + (indexPageGame) %}
+                {% if itterator <= numberOFPagesGames.length %}
+                  <li class="page-item"><a class="page-link" href="/games/{{idPlatform}}/{{itterator}}">{{itterator}}</a></li>
                 {% endif %}
               {% endif %}
-            {% endif %}
-          {% endfor %}
-        </div>
-        {% if indexPageGame + limitPage >= numberOFPagesGames.length%}
-            <a href="/games/{{idPlatform}}/1"><button disabled="disabled">></button></a>
-            <a href="/games/{{idPlatform}}/{{numberOFPagesGames.length}}"><button disabled="disabled">>></button></a>
-        {% else %}
-          <a href="/games/{{idPlatform}}/{{indexPageGame+10}}"><button>></button></a>
-          <a href="/games/{{idPlatform}}/{{numberOFPagesGames.length}}"><button>>></button></a>
-        {% endif %}
-
-      </div>
-    {% else %}
-<!-- BLOC pagination si origine route provient de games -->
-      {% if schearch == false %}
-        <a href="/"><button>Retour</button></a>
-        <div class="navPage">
-          {% if indexOfPage == 1 or indexOfPage == 0 %}
-            <a href="/games/1"><button disabled="disabled"><<</button></a>
-            <a href="/games/{{indexOfPage-10}}"><button disabled="disabled"><</button></a>
           {% else %}
-            <a href="/games/1"><button><<</button></a>
-            <a href="/games/{{indexOfPage-10}}"><button><</button></a>
+            {% if page <= limitPage %}
+                  {% if page != indexPageGame%}
+                <li class="page-item"><a class="page-link" href="/games/{{idPlatform}}/{{page}}">{{page}}</a></li>
+              {% endif %}
+            {% endif %}
           {% endif %}
-        <div class="nbPage">
+        {% endfor %}
+      {% if indexPageGame + limitPage >= numberOFPagesGames.length%}
+          <li class="page-item disabled">
+            <a class="page-link" href="/games/{{idPlatform}}/1" aria-label="Next">
+            <span aria-hidden="true" disabled="disabled">&raquo;</span>
+            </a>
+          </li>
+          <li class="page-item disabled">
+            <a class="page-link" href="/games/{{idPlatform}}/{{numberOFPagesGames.length}}" aria-label="Next">
+            <span aria-hidden="true" disabled="disabled">&raquo;&raquo;</span>
+            </a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="/games/{{idPlatform}}/{{indexPageGame+10}}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="/games/{{idPlatform}}/{{numberOFPagesGames.length}}" aria-label="Next">
+            <span aria-hidden="true">&raquo;&raquo;</span>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+{% else %}
+  <div class="container-fluid pageSelector">
+      <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center pageSelector">
+          {% if indexPageGame == 1 or indexPageGame == 0%}
+            <li class="page-item disabled">
+              <a class="page-link" href="/games/1" aria-label="Previous">
+              <span aria-hidden="true">&laquo;&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="/games/{{indexOfPage-10}}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item">
+              <a class="page-link" href="/games/1" aria-label="Previous">
+              <span aria-hidden="true" disabled="disabled">&laquo;&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/games/{{indexOfPage-10}}" aria-label="Previous">
+              <span aria-hidden="true" disabled="disabled">&laquo;</span>
+              </a>
+            </li>
+          {% endif %}
           {% set limitPage = 10 %}
           {% for page in numberOFPagesGames %}
             {% if indexOfPage > limitPage %}
               {% set itterator = page + indexOfPage%}
               {% if itterator <= limitPage + (indexOfPage) %}
                 {% if itterator <= numberOFPagesGames.length %}
-                <a href="/games/{{itterator}}"><button>{{itterator}}</button></a></a>
-                {% endif %}
-              {% endif %}
-              {% else %}
-                {% if page <= limitPage %}
-                  {% if page != indexOfPage%}
-                    <a href="/games/{{page}}"><button>{{page}}</button></a></a>
+                    <li class="page-item"><a class="page-link" href="/games/{{itterator}}">{{itterator}}</a></li>
                   {% endif %}
                 {% endif %}
+            {% else %}
+              {% if page <= limitPage %}
+                    {% if page != indexOfPage%}
+                  <li class="page-item"><a class="page-link" href="/games/{{page}}">{{page}}</a></li>
+                {% endif %}
+              {% endif %}
             {% endif %}
           {% endfor %}
-          </div>
-          {% if indexOfPage + limitPage >= numberOFPagesGames.length%}
-            <a href="/games/{{indexOfPage+10}}"><button disabled="disabled">></button></a>
-            <a href="/games/{{numberOFPagesGames.length}}"><button disabled="disabled">>></button></a>
+        {% if indexOfPage + limitPage >= numberOFPagesGames.length%}
+            <li class="page-item disabled">
+              <a class="page-link" href="/games/{{indexOfPage+10}}" aria-label="Next">
+              <span aria-hidden="true" disabled="disabled">&raquo;</span>
+              </a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="/games/{{numberOFPagesGames.length}}" aria-label="Next">
+              <span aria-hidden="true" disabled="disabled">&raquo;&raquo;</span>
+              </a>
+            </li>
           {% else %}
-            <a href="/games/{{indexOfPage+10}}"><button>></button></a>
-            <a href="/games/{{numberOFPagesGames.length}}"><button>>></button></a>
+            <li class="page-item">
+              <a class="page-link" href="/games/{{indexOfPage+10}}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/games/{{numberOFPagesGames.length}}" aria-label="Next">
+              <span aria-hidden="true">&raquo;&raquo;</span>
+              </a>
+            </li>
           {% endif %}
-
-        </div>
-      {% else %}
-        <a href="/"><button>Retour</button></a>
-      {% endif %}
-    {% endif %}
+        </ul>
+      </nav>
+    </div>
+ {% endif %}
   {% endblock %}
   {% block contenu%}
 <!-- BLOC si origine route provient de platforms -->
-  {% if pagePlatformOrigin %}
-    <div><h1>{{namePlatForm}}</1></div>
-    <div class="divContainer">
-      <div class="blocGames">
-        {% for game in gamePlatform%}
-        <a href="/games/{{idPlatform}}/{{game.name}}/{{game.id}}">
-          <div class="ligneDivGames">
-            <div>
-              <img src="{{game.cover.url}}"></img>
-              <div>{{game.name}}</div>
+{% if pagePlatformOrigin %}
+  <div class="container-fluid">
+    <div class="container">
+      <div class="row">
+          <div class="col-md-6">
+          {% for game in gamePlatform%}
+          <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="{{game.cover.url}}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{game.name}}</h5>
+                <a href="/games/{{idPlatform}}/{{game.name}}/{{game.id}}" class="btn btn-primary">Open</a>
+              </div>
             </div>
           </div>
-        </a>
+        </div>
         {% endfor %}
-      </div>
-      {% if afficheBloc %}
-        {% if schearch %}
-          <div class="blocInfoJeu">
-          <div class="ligneInfoJeu">
-            <div><img src="{{gameInfo.cover.url}}"></img></div>
-            <div>{{gameInfo.name}}</div>
           </div>
-          <div class="infoPlatform">
-            <h3>Plateforme :</h3>
+          {% if afficheBloc %}
+            <div class="col-md-6">
+              <div><img src="{{gameInfo.cover.url}}"></img></div>
+              <div>{{gameInfo.name}}</div>
+              <h3>Plateforme :</h3>
               {% for platform in gameInfo.platforms%}
-                <p>{{platform.name}}</p>
+              <p>{{platform.name}}</p>
               {% endfor %}
-          </div>
-          <div class="gridInfoGame">
-              {% for screen in gameInfo.game_screenshots%}
-                <div class="imageScreenShots"><img src="{{screen.url}}"></img></div>
+              {% for screen in gameInfo.screenshots%}
+              <div class="imageScreenShots"><img src="{{screen.url}}"></img></div>
               {% endfor %}
-          </div>
-        </div>
-        {% else %}
-          <div class="blocInfoJeu">
-            <div class="ligneInfoJeu">
-              <div><img src="{{gameInfo.cover.url}}"></img></div>
-              <div>{{gameInfo.name}}</div>
-            </div>
-            <div class="infoPlatform">
-              <h3>Plateforme :</h3>
-                {% for platform in gameInfo.platforms%}
-                  <p>{{platform.name}}</p>
-                {% endfor %}
-            </div>
-            <div class="gridInfoGame">
-                {% for screen in gameInfo.screenshots%}
-                  <div class="imageScreenShots"><img src="{{screen.url}}"></img></div>
-                {% endfor %}
-            </div>
-          </div>
-        {% endif %}
-      {% endif %}
-    <div>
-  {% else %}
-<!-- BLOC si origine route provient de games -->
-    <div class="divContainer">
-      <div class="blocGames">
-        {% for game in games %}
-        <a href="/games/game/{{game.name}}/{{game.id}}">
-          <div class="ligneDivGames">
-            <div>
-              <img src="{{game.cover.url}}"></img>
-              <div>{{game.name}}</div>
-            </div>
-          </div>
-        </a>
-        {% endfor %}
+          {% endif %}
       </div>
-      {% if afficheBloc %}
-        {% if schearch %}
-          <div class="blocInfoJeu">
-          <div class="ligneInfoJeu">
-            <div><img src="{{gameInfo.cover.url}}"></img></div>
-            <div>{{gameInfo.name}}</div>
-          </div>
-          <div class="infoPlatform">
-              <h3>Plateforme :</h3>
-                {% for platInfo in gameInfo.games_platforms%}
-                  <p>{{platInfo.platform.name}}</p>
-                {% endfor %}
+    </div>
+  </div>
+{% else %}
+<!-- BLOC si origine route provient de games -->
+<div class="container-fluid">
+    <div class="container">
+      <div class="row">
+          <div class="col-md-6">
+          {% for game in games %}
+          <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="{{game.cover.url}}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{game.name}}</h5>
+                <a href="/games/game/{{game.name}}/{{game.id}}" class="btn btn-primary">Open</a>
               </div>
-          <div class="gridInfoGame">
-              {% for screen in gameInfo.game_screenshots%}
-                <div class="imageScreenShots"><img src="{{screen.url}}"></img></div>
-              {% endfor %}
+            </div>
           </div>
         </div>
-        {% else %}
-          <div class="blocInfoJeu">
-            <div class="ligneInfoJeu">
+        {% endfor %}
+          </div>
+          {% if afficheBloc %}
+            <div class="col-md-6">
               <div><img src="{{gameInfo.cover.url}}"></img></div>
-              <div>{{gameInfo.name}}</div>
-            </div>
-            <div class="infoPlatform">
-              <h3>Plateforme :</h3>
+                <div>{{gameInfo.name}}</div>
+                <h3>Plateforme :</h3>
                 {% for platform in gameInfo.platforms%}
                   <p>{{platform.name}}</p>
                 {% endfor %}
-              </div>
-            <div class="gridInfoGame">
                 {% for screen in gameInfo.screenshots%}
                   <div class="imageScreenShots"><img src="{{screen.url}}"></img></div>
                 {% endfor %}
-            </div>
-          </div>
-        {% endif %}
-      {% endif %}
-    <div>
-  {% endif %}
+          {% endif %}
+      </div>
+    </div>
+</div>
+{% endif %}
 {% endblock %}
 
 

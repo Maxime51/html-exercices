@@ -16,7 +16,7 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             {% if dataGenres %}
               {% for genre in dataGenres %}
-                <li><a class="dropdown-item" href="/films/{{genre.name}}">{{genre.name}}</a></li>
+                <li><a class="dropdown-item" href="/films/{{genre._id}}">{{genre.name}}</a></li>
               {% endfor %}
             {% endif %}
           </ul>
@@ -40,9 +40,9 @@
 {% endblock %}
 {% block contenu%}
 
-{% if dataFilms %}
-  {% for films in dataFilms %}
-      <h1>{{films.titlte}}</h1>
+{% if data %}
+  {% for films in data %}
+      <h1>{{films.title}}</h1>
       <h1>{{films.annee}}</h1>
       <h1>{{films.realisateur}}</h1>
       <img src="{{films.url}}"/>

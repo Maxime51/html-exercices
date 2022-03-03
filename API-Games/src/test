@@ -1,76 +1,186 @@
-numberOFPagesArray = [];
-  getNumberPages("http://videogame-api.fly.dev/platforms").then((element) => {
-    for (let i = 1; i <= element / 20 + 1; i++) {
-      numberOFPagesArray.push(i);
-    }
-  });
 
-   request(`http://videogame-api.fly.dev/games/platforms/${stringRecupArray[0]}`, (error, body) => {
-    if (error) {
-      console.error(error);
-    } else {
-      const gamePlatform = JSON.parse(body);
-      numberOFPagesGames = [];
-      for (let i = 1; i <= gamePlatform.total / 20 + 1; i++) {
-        numberOFPagesGames.push(i);
-      }
-      response.redirect(`/games/${stringRecup}/1`);
-    }
-  });
+      <form class="formPlatName" method="POST" action="/schearch">
+      <select name="category" id="category-select" onchange="location = this.options[this.selectedIndex].id">
+        <option value="name" id="/options/name">Name</option>
+        {% if selector %}
+          <option selected value="platform" id="/options/platform">Plateform</option>
+        {% else %}
+          <option value="platform" id="/options/platform">Plateform</option>
+        {% endif %}
+      </select>
+        {% if selector %}
+          <select id="category-select" onchange="document.getElementById('inputReturn').value= this.options[this.selectedIndex].id">
+            {% for platform in listOfPlatforms.platforms %}
+              <option type="text" id="{{platform.name}}">{{platform.name}}</option>
+            {% endfor %}
+          </select>
+          <input id="inputReturn" type="hidden" name="nameGame" value="Windows Phone"/>
+        {% else %}
+          <input id="inputReturn" type="text" name="nameGame" placeholder="Name Game" />
+        {% endif %}
+      <button type="submit">
+        Schearch
+      </button>
+    </form>
 
-  app.get("/games", (req, response) => {
+    {% if schearch %}
+          <div class="blocInfoJeu">
+          <div class="ligneInfoJeu">
+            <div><img src="{{gameInfo.cover.url}}"></img></div>
+            <div>{{gameInfo.name}}</div>
+          </div>
+          <div class="infoPlatform">
+            <h3>Plateforme :</h3>
+              {% for platform in gameInfo.platforms%}
+                <p>{{platform.name}}</p>
+              {% endfor %}
+          </div>
+          <div class="gridInfoGame">
+              {% for screen in gameInfo.game_screenshots%}
+                <div class="imageScreenShots"><img src="{{screen.url}}"></img></div>
+              {% endfor %}
+          </div>
+        </div>
 
-    request("http://videogame-api.fly.dev/games", (error, body) => {
-      const listOfPlatGames = JSON.parse(body);
-      numberOFPagesArray = [];
-      for (let i = 1; i <= listOfPlatGames.total / 20 + 1; i++) {
-        numberOFPagesArray.push(i);
-      }
-      response.redirect(`games/1`);
-    });
-  });
 
-
-  request(`http://videogame-api.fly.dev/games?page=${indexOfPage}`, (error, body) => {
-    if (error) {
-      console.error(error);
-    } else {
-      const json = JSON.parse(body);
-      listGames = json.games;
-      response.render("games", {
-        games: json.games,
-        numberOFPagesGames: numberOFPagesArray,
-        indexOfPage,
-        schearch: false,
-      });
-    }
-  });
-
-  app.get("/games/:platform/:page", (req, response) => {
-    gamePlatforms = [];
-    idPlatform = "";
-    idPlatform = req.params.platform;
-    const stringRecupArray = idPlatform.split(":");
-    indexPageGame = parseInt(req.params.page);
-    request(
-      `http://videogame-api.fly.dev/games/platforms/${stringRecupArray[0]}?page=${indexPageGame}`,
-      (error, body) => {
-        if (error) {
-          console.error(error);
-        } else {
-          gamePlatforms = JSON.parse(body).games;
-          response.render("games", {
-            gamePlatform: gamePlatforms,
-            idPlatform,
-            numberOFPagesGames,
-            //schearch: true,
-            indexOfPage,
-            pagePlatformOrigin: true,
-            indexPageGame,
-            namePlatForm: stringRecupArray[1],
-          });
-        }
-      },
-    );
-  });
-
+{% if pagePlatformOrigin%}
+  <div class="container-fluid pageSelector">
+    <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center pageSelector">
+        {% if indexPageGame == 1 or indexPageGame == 0%}
+          <li class="page-item disabled">
+            <a class="page-link" href="/games/{{idPlatform}}/1" aria-label="Previous">
+            <span aria-hidden="true">&laquo;&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item disabled">
+            <a class="page-link" href="/games/{{idPlatform}}/{{indexPageGame-10}}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="/games/{{idPlatform}}/1" aria-label="Previous">
+            <span aria-hidden="true" disabled="disabled">&laquo;&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="/games/{{idPlatform}}/{{indexPageGame-10}}" aria-label="Previous">
+            <span aria-hidden="true" disabled="disabled">&laquo;</span>
+            </a>
+          </li>
+        {% endif %}
+        {% set limitPage = 10 %}
+            {% for page in numberOFPagesGames %}
+              {% if indexPageGame >= limitPage %}
+              {% set itterator = page + indexPageGame%}
+              {% if itterator <= limitPage + (indexPageGame) %}
+                {% if itterator <= numberOFPagesGames.length %}
+                  <li class="page-item"><a class="page-link" href="/games/{{idPlatform}}/{{itterator}}">{{itterator}}</a></li>
+                {% endif %}
+              {% endif %}
+          {% else %}
+            {% if page <= limitPage %}
+                  {% if page != indexPageGame%}
+                <li class="page-item"><a class="page-link" href="/games/{{idPlatform}}/{{page}}">{{page}}</a></li>
+              {% endif %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      {% if indexPageGame + limitPage >= numberOFPagesGames.length%}
+          <li class="page-item disabled">
+            <a class="page-link" href="/games/{{idPlatform}}/1" aria-label="Next">
+            <span aria-hidden="true" disabled="disabled">&raquo;</span>
+            </a>
+          </li>
+          <li class="page-item disabled">
+            <a class="page-link" href="/games/{{idPlatform}}/{{numberOFPagesGames.length}}" aria-label="Next">
+            <span aria-hidden="true" disabled="disabled">&raquo;&raquo;</span>
+            </a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="/games/{{idPlatform}}/{{indexPageGame+10}}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="/games/{{idPlatform}}/{{numberOFPagesGames.length}}" aria-label="Next">
+            <span aria-hidden="true">&raquo;&raquo;</span>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+{% else %}
+  <div class="container-fluid pageSelector">
+      <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center pageSelector">
+          {% if indexPageGame == 1 or indexPageGame == 0%}
+            <li class="page-item disabled">
+              <a class="page-link" href="/games/1" aria-label="Previous">
+              <span aria-hidden="true">&laquo;&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="/games/{{indexOfPage-10}}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item">
+              <a class="page-link" href="/games/1" aria-label="Previous">
+              <span aria-hidden="true" disabled="disabled">&laquo;&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/games/{{indexOfPage-10}}" aria-label="Previous">
+              <span aria-hidden="true" disabled="disabled">&laquo;</span>
+              </a>
+            </li>
+          {% endif %}
+          {% set limitPage = 10 %}
+          {% for page in numberOFPagesGames %}
+            {% if indexOfPage > limitPage %}
+              {% set itterator = page + indexOfPage%}
+              {% if itterator <= limitPage + (indexOfPage) %}
+                {% if itterator <= numberOFPagesGames.length %}
+                    <li class="page-item"><a class="page-link" href="/games/{{itterator}}">{{itterator}}</a></li>
+                  {% endif %}
+                {% endif %}
+            {% else %}
+              {% if page <= limitPage %}
+                    {% if page != indexOfPage%}
+                  <li class="page-item"><a class="page-link" href="/games/{{page}}">{{page}}</a></li>
+                {% endif %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        {% if indexOfPage + limitPage >= numberOFPagesGames.length%}
+            <li class="page-item disabled">
+              <a class="page-link" href="/games/{{indexOfPage+10}}" aria-label="Next">
+              <span aria-hidden="true" disabled="disabled">&raquo;</span>
+              </a>
+            </li>
+            <li class="page-item disabled">
+              <a class="page-link" href="/games/{{numberOFPagesGames.length}}" aria-label="Next">
+              <span aria-hidden="true" disabled="disabled">&raquo;&raquo;</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item">
+              <a class="page-link" href="/games/{{indexOfPage+10}}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/games/{{numberOFPagesGames.length}}" aria-label="Next">
+              <span aria-hidden="true">&raquo;&raquo;</span>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+ {% endif %}
